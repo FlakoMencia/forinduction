@@ -1,0 +1,194 @@
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>Registro Empresa</title>
+    <th:block th:insert="fragments/custom/style"/>
+    <th:block th:insert="fragments/salert/style"/>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container-fluid">
+        <div class="header">
+            <h1 class="header-title">
+                Registro de Empresa
+            </h1>
+        </div>
+        <h2 class="header-title">
+            <p class="step1" th:text="#{msg.fiveStep}"></p>
+            <input th:field="*{sol.skSolicitud}" id="skSolicitud" hidden="hidden">
+            <input th:field="*{dataCompany.skEmpresa}" id="skEmpresa" hidden="hidden">
+        </h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body " style="line-height: 1.8">
+                        <div class="card-subtitle mb-3 border-bottom pb-3">
+                            Datos de la Empresa
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>¿Actua en calidad de? </p>
+                            </div>
+                            <div class="row col-sm-7">
+                                <div class="col-sm-3">
+                                    <input type="radio" id="radioButtonRepre" name="forExtranjero" disabled>
+                                    <label for="radioButtonRepre" class="opacity-75" >Representante Legal</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="radio" id="radioButtonApode" name="forExtranjero" disabled>
+                                    <label for="radioButtonApode" class="opacity-75" >Apoderado Legal</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Nombres : </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                th:field="*{dataCompany.stNombres}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Apellidos: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite"
+                                       value="Falta campo en Objeto" readonly/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Genero: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly value="pediente de incorporar genero en WEB SERVICE EMULADO"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>¿Es usted del extranjero? </p>
+                            </div>
+                            <div class="row col-sm-7">
+                                <div class="col-sm-3">
+                                    <input type="radio" id="radioButtonSi" name="forExtranjero" disabled>
+                                    <label for="radioButtonSi" class="opacity-75"  >Si</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="radio" id="radioButtonNo" name="forExtranjero" disabled>
+                                    <label for="radioButtonNo" class="opacity-75" >No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>NIT: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                       th:field="*{dataCompany.nit}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>DUI: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                       th:field="*{dataCompany.dui}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Pasaporte: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                       th:field="*{dataCompany.pasaporte}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 ps-5 ">
+                <a class="btn btn-danger waves-effect waves-light " onclick="cancelSolicitud()">
+                    Cancelar
+                </a>
+            </div>
+            <div class="col-sm-8 text-md-end ">
+                <a id="backStepSol" class="btn btn-warning waves-effect waves-light w-10  " onclick="backwardSol()">
+                    Atras
+                </a> <span> </span>
+                <button id="fwdStepSol" class="btn btn-info waves-effect waves-light " onclick="nextStepSol()">
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+<section layout:fragment="js" th:remove="tag">
+    <th:block th:insert="fragments/salert/scripts"/>
+    <script th:src="@{/js/pages/firstStepsCompanyReg.js}"></script>
+    <script type="text/javascript">
+        var skSolicitud = $("#skSolicitud").val();
+        var skEmpresa = $("#skEmpresa").val();
+
+
+        function backwardSol() {
+            window.location.href = '../dataPJ/' + skEmpresa;
+        }
+
+        function nextStepSol() {
+            // window.location.href = '../company/rqst ';
+            window.location.href = '../finanPJ/' + skEmpresa;
+        }
+
+        function cancelSolicitud() {
+            Swal.fire({
+                title: '<strong>¿Desea Salir?</strong>',
+                icon: 'info',
+                text: 'De hacerlo, perderá todos los datos que ha ingresado.',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusCancel: true,
+                cancelButtonText: 'No',
+                confirmButtonText: 'Si',
+                reverseButtons: true
+                //  ,cancelButtonColor: '#d33' //confirmar si desean color rojo en este boton
+            }).then(function (result) {
+                if (result.value === true) {
+                    $.ajax({  // se usa este ajax ya que el del archivo 04 - ajaxFormUtils.js no muestra el loading
+                        data: {
+                            skSolicitud: skSolicitud
+                        }, url: '../cancelRqst', type: 'POST', success: function (result) {
+                            if (result.success === true) {
+                                window.location.href = '../../../index';
+                            } else {
+                                Swal.fire({
+                                    title: "Error!", text: "Error eliminando solicitud..." + result.message,
+                                    type: 'error'
+                                });
+                            }
+                        },
+                    });
+                }
+            });
+        }
+
+    </script>
+
+</section>
+</body>
+</html>

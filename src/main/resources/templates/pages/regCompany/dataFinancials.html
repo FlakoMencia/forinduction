@@ -1,0 +1,1156 @@
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>Registro Datos</title>
+    <th:block th:insert="fragments/custom/style"/>
+    <th:block th:insert="fragments/salert/style"/>
+    <th:block th:insert="fragments/s2/style"/>
+    <th:block th:insert="fragments/datepicker/style"/>
+</head>
+
+<body>
+<section layout:fragment="content" th:remove="tag">
+    <div class="container-fluid">
+        <div class="header">
+            <h1 class="header-title">
+                Datos de Empresa
+            </h1>
+        </div>
+        <h2 class="header-title">
+            <p class="step1" th:text="#{msg.fiveStep}"></p>
+            <input th:field="*{sol.skSolicitud}" id="skSolicitud" th:hidden="true">
+            <input th:field="*{dataCompany.skEmpresa}" id="skEmpresa" th:hidden="true">
+        </h2>
+        <div class="row">
+            <form enctype="multipart/form-data" id="financialsDataForm" th:action="@{/}">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body " style="line-height: 2.8">
+                            <div class="card-subtitle mb-3 border-bottom pb-3">
+                                Datos de Actividad Económica
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5 stDenominacion">
+                                    <p th:for="stDenominacion">Denominación Comercial: <b class="text-danger">*</b>
+                                    </p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="stDenominacion" th:field="*{dataCompany.stDenominacion}"
+                                           class="form-control form-control-lite stDenominacion" required/>
+                                    <span id="stDenominacionError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="Ingrese el nombre comercial del establecimiento que está registrando. Eje: Restaurante San Miguel"
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5 stDenominacion">
+                                    <p th:for="stDireccionInmueble">Dirección Establecimiento: <b class="text-danger">*</b>
+                                    </p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="stDireccionInmueble" th:field="*{dataCompany.stDireccionInmueble}"
+                                           class="form-control form-control-lite stDenominacion" required/>
+                                    <span id="stDireccionInmuebleError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="Ingrese la dirección en la que está ubicado el negocio."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>¿Es usted el dueño del inmueble donde está el negocio? <b class="text-danger">*</b></label></p>
+                                </div>
+                                <div class="row col-sm-7">
+                                    <div class="col-sm-3">
+                                        <input type="radio" id="radioButtonSi" name="forPropietarioInm" value="true" class="propietario">
+                                        <label for="radioButtonSi" class="opacity-75">Si</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="radio" id="radioButtonNo" name="forPropietarioInm" value="false"  class="propietario">
+                                        <label for="radioButtonNo" class="opacity-75">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Copia de contrato de arrendamiento: <b class="text-danger astForNoPropietarioInm"  >*</b> </p>
+                                </div>
+                                <div class="row col-sm-7 " style="line-height: normal">
+                                    <div class="col-sm-8">
+                                        <input type="text" id="arr_file_input" readonly class="input-form form-control"
+                                               placeholder="No Archivo Ingresado" onclick="clickOn('arr_file');"
+                                               style="background-color: snow ">
+                                        <input type="file" id="arr_file" hidden="hidden" name="attachments"
+                                               accept="application/pdf"
+                                               class="form-control form-control-lite files"
+                                               style="background-color: snow !important"/>
+                                        <p id="files-area_arr_file">
+                                        <span id="filesList_arr_file">
+                                            <span id="files-names_arr_file"></span>
+                                        </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                           data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                           data-bs-content="Anexe la copia del Contrato Arrendamiento en formato PDF."
+                                           style="cursor: pointer;"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <a id="arr_btn" class="btn btn-info" for="arr_file" onclick="clickOn('arr_file');">
+                                            Agregar Archivo</a>
+                                        <span id="arr_fileError1" class="error-form w-100 "
+                                              style="display: none; color: red;">*Archivo obligatorio</span>
+                                        <span id="arr_fileError2" class="error-form w-100 "
+                                              style="display: none; color: red;">Formato de Archivo invalido</span>
+                                        <span id="arr_fileError3" class="error-form w-100 "
+                                              style="display: none; color: red;">Tamaño de Archivo no permitido</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5 stPropietarioInm">
+                                    <p th:for="stPropietarioInm">
+                                        El inmueble donde funciona es propiedad de: <b class="text-danger astForNoPropietarioInm">*</b>
+                                    </p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="stPropietarioInm" th:field="*{dataCompany.stPropietarioInm}"
+                                           class="form-control form-control-lite stDenominacion" required/>
+                                    <span id="stPropietarioInmError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="Ingrese el nombre completo del propietario del inmueble."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Teléfono: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="row ">
+                                        <div class="col-sm-6">
+                                            <select class="form-select" id="ccTipoTelDelegate">
+                                            </select>
+                                            <span id="phoneListError1" class="error-form w-100 float-start"
+                                                  style="display: none; color: red;">*Campo obligatorio</span>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input id="telinput" class="form-control form-control-lite"/>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a class="fas fa-plus-circle fa-2x opacity-75 ico-hover-plus"
+                                               style="cursor: pointer;" onclick="addTelephoneFunction();"></a>
+                                        </div>
+                                    </div>
+                                    <div id="phoneList" class="row px-2">
+                                        <!--aca se pintan los numeros de telefono -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right"
+                                       data-bs-content="Ingrese uno o varios números de contacto."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Sector Económico: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <select class="form-select" id="sectorEcoDelegate" th:field="*{dataCompany.girGiro.aceActividadEconomica}">
+                                        <option th:if="${dataCompany.girGiro != null}" th:value="${dataCompany.girGiro.aceActividadEconomicaAceIdDelegate}"
+                                                th:text="${dataCompany.girGiro.aceActividadEconomicaStDescripcionDelegate}" selected="selected"></option>
+                                    </select>
+                                    <span id="aceActEcoDelegateError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right"
+                                       data-bs-content="Seleccionar de la lista desplegable el sector al que pertenece."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Actividad Económica: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <select class="form-select" id="actEcoDelegate" th:field="*{dataCompany.girGiro}">
+                                        <option th:if="${dataCompany.girGiro != null}" th:value="${dataCompany.girGiro.girId}"
+                                                th:text="${dataCompany.girGiro.girNombre}" selected="selected"></option>
+                                    </select>
+                                    <span id="actEcoDelegateError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right"
+                                       data-bs-content="Seleccione la actividad especifica que ejecuta el negocio."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Fecha de Inicio de Operación:  <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control datepicker-initializer"
+                                               th:field="*{dataCompany.fcInicioOperaciones}"
+                                               id="fcInicioOperaciones" name="fcInicioOperaciones"
+                                               placeholder="DD/MM/YYYY" required/>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" style="height: 100%;"><i
+                                                    class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <span id="fcInicioOperacionesError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="Ingrese la fecha de apertura al público"
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Tipo de Activo: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="row col-sm-7">
+                                    <div class="col-sm-3">
+                                        <input type="radio" id="radioButtonInicial" name="forTipoActivo" th:value="I" class="tipoActivo">
+                                        <label for="radioButtonInicial" class="opacity-75" >Inicial</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="radio" id="radioButtonNeto" name="forTipoActivo" th:value="N" class="tipoActivo">
+                                        <label for="radioButtonNeto" class="opacity-75" >Neto Inicial</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Activo Inicial:  <b class="text-danger astForActInicial">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="activoInicial" class="form-control form-control-lite" th:field="*{dataCompany.activoInicial}"/>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                       data-bs-content="Si el sector es Industria o Financiera, ingrese el Activo Total del Balance Inicial. Caso contrario ingrese el Activo Corriente"
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Activo Neto Inicial: <b class="text-danger astForActNeto">*</b></p> </p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="activoNeto" class="form-control form-control-lite" th:field="*{dataCompany.activoInicial}"/>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                       data-bs-content="Ingrese el Activo Neto."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Lleva contabilidad formal:<b class="text-danger">*</b> </p>
+                                </div>
+                                <div class="row col-sm-7">
+                                    <div class="col-sm-3">
+                                        <input type="radio" id="radioButtonContaSi" name="forContaFormal" value="true" class="contaFormal">
+                                        <label for="radioButtonContaSi" class="opacity-75">Si</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="radio" id="radioButtonContaNo" name="forContaFormal" value="false" class="contaFormal">
+                                        <label for="radioButtonContaNo" class="opacity-75">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Copia de Balance Inicial: <b class="text-danger astForBalance">*</b></p>
+                                </div>
+                                <div class="row col-sm-7 " style="line-height: normal">
+                                    <div class="col-sm-8">
+                                        <input type="text" id="bal_file_input" readonly class="input-form form-control"
+                                               placeholder="No Archivo Ingresado" onclick="clickOn('bal_file');"
+                                               style="background-color: snow ">
+                                        <input type="file" id="bal_file" hidden="hidden" name="attachments"
+                                               accept="application/pdf"
+                                               class="form-control form-control-lite files"
+                                               style="background-color: snow !important"/>
+                                        <p id="files-area_bal_file">
+                                    <span id="filesList_bal_file">
+                                        <span id="files-names_bal_file"></span>
+                                    </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                           data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                           data-bs-content="Anexe la copia del Balance General en formato PDF."
+                                           style="cursor: pointer;"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <a id="bal_btn" class="btn btn-info" for="bal_file" onclick="clickOn('bal_file');">
+                                            Agregar Archivo</a>
+                                        <span id="bal_fileError1" class="error-form w-100 "
+                                              style="display: none; color: red;">*Archivo obligatorio</span>
+                                        <span id="bal_fileError2" class="error-form w-100 "
+                                              style="display: none; color: red;">Formato de Archivo invalido</span>
+                                        <span id="bal_fileError3" class="error-form w-100 "
+                                              style="display: none; color: red;">Tamaño de Archivo no permitido</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Copia de Inventario Inicial: <b class="text-danger astForInventario">*</b></p>
+                                </div>
+                                <div class="row col-sm-7 " style="line-height: normal">
+                                    <div class="col-sm-8">
+                                        <input type="text" id="inv_file_input" readonly class="input-form form-control"
+                                               placeholder="No Archivo Ingresado" onclick="clickOn('inv_file');"
+                                               style="background-color: snow ">
+                                        <input type="file" id="inv_file" hidden="hidden" name="attachments"
+                                               accept="application/pdf"
+                                               class="form-control form-control-lite files"
+                                               style="background-color: snow !important"/>
+                                        <p id="files-area_inv_file">
+                                    <span id="filesList_inv_file">
+                                        <span id="files-names_inv_file"></span>
+                                    </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                           data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                           data-bs-content="Anexe la copia del Inventario Inicial en formato PDF."
+                                           style="cursor: pointer;"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <a id="inv_btn" class="btn btn-info" for="inv_file" onclick="clickOn('inv_file');">
+                                            Agregar Archivo</a>
+                                        <span id="inv_fileError1" class="error-form w-100 "
+                                              style="display: none; color: red;">*Archivo obligatorio</span>
+                                        <span id="inv_fileError2" class="error-form w-100 "
+                                              style="display: none; color: red;">Formato de Archivo invalido</span>
+                                        <span id="inv_fileError3" class="error-form w-100 "
+                                              style="display: none; color: red;">Tamaño de Archivo no permitido</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <input id="arr_file_db_id" type="text" th:field="*{arrDoc.skDocAnexo}" hidden="hidden"/>
+                    <input id="arr_file_db_name" type="text" th:field="*{arrDoc.stNombreDoc}" hidden="hidden"/>
+                    <input id="bal_file_db_id" type="text" th:field="*{balDoc.skDocAnexo}" hidden="hidden"/>
+                    <input id="bal_file_db_name" type="text" th:field="*{balDoc.stNombreDoc}" hidden="hidden"/>
+                    <input id="inv_file_db_id" type="text" th:field="*{invDoc.skDocAnexo}" hidden="hidden"/>
+                    <input id="inv_file_db_name" type="text" th:field="*{invDoc.stNombreDoc}" hidden="hidden"/>
+                </div>
+                <div class="card">
+                    <div class="card-body " style="line-height: 2.8">
+                        <div class="card-subtitle mb-3 border-bottom pb-3">
+                            Datos Complementarios
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5 stMatricula">
+                                <p th:for="stMatricula">Matricula de la Empresa: <b class="text-danger">*</b>
+                                </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input id="stMatricula" th:field="*{dataCompany.stMatricula}"
+                                       class="form-control form-control-lite stMatricula" required/>
+                                <span id="stMatriculaError1" class="error-form w-100 float-start"
+                                      style="display: none; color: red;">*Campo obligatorio</span>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                   data-bs-content="Ingrese el número de matrícula asignado por el registro de comercio."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5 stPropietarioInm">
+                                <p th:for="stNombreContador">Nombres del Contador: <b class="text-danger">*</b>
+                                </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input id="stNombreContador" th:field="*{dataCompany.stNombreContador}"
+                                       class="form-control form-control-lite stNombreContador" required/>
+                                <span id="stNombreContadorError1" class="error-form w-100 float-start"
+                                      style="display: none; color: red;">*Campo obligatorio</span>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                   data-bs-content="Ingrese los nombres según documento de identidad."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5 stApellidoContador">
+                                <p th:for="stApellidoContador">Apellidos del Contador: <b class="text-danger">*</b>
+                                </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input id="stApellidoContador" th:field="*{dataCompany.stApellidoContador}"
+                                       class="form-control form-control-lite stApellidoContador" required/>
+                                <span id="stApellidoContadorError1" class="error-form w-100 float-start"
+                                      style="display: none; color: red;">*Campo obligatorio</span>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                   data-bs-content="Ingrese los apellidos según documento de identidad."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5 genGeneroContador">
+                                <p th:for="genGeneroContador">Genero: <b class="text-danger">*</b></label>
+                                </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-select" id="genGeneroContadorDelegate"
+                                        th:field="*{dataCompany.genGeneroContador.genId}"
+                                        th:placeholder="Seleccione" required>
+                                    <option value="0" label="seleccione"></option>
+                                    <option value="1" label="MASCULINO"></option>
+                                    <option value="2" label="FEMENINO"></option>
+                                    <option value="3" label="N/A"></option>
+                                </select>
+                                <span id="genGeneroContadorDelegateError1" class="error-form w-100 float-start"
+                                      style="display: none; color: red;">*Campo obligatorio</span>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                   data-bs-content="Seleccione género"
+                                   style="cursor: pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5 stApellidoContador">
+                                <p th:for="stEmailContador">Correo Electrónico:
+                                </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input id="stEmailContador" th:field="*{dataCompany.stEmailContador}"
+                                       class="form-control form-control-lite stEmailContador" required/>
+                                <span id="stEmailContadorError1" class="error-form w-100 float-start"
+                                      style="display: none; color: red;">*Campo obligatorio</span>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                   data-bs-content="Ingese el correo electrónico del contador."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body " style="line-height: 2.8">
+                        <div class="row">
+                            <div class="col-sm-3 ps-5 stApellidoContador">
+                                <p th:for="comentario">Comentario: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <textarea id="comentario" th:field="*{dataCompany.comentario}"
+                                          class="form-control form-control-lite stEmailContador" >
+
+                                </textarea>
+                                <span id="comentarioError1" class="error-form w-100 float-start"
+                                      style="display: none; color: red;">*Campo obligatorio</span>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                   data-bs-content="Ingrese información adicional que respalde la inscripción del negocio."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+<!--        <div class="row">-->
+<!--            <div class="col-sm-12">-->
+
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+
+
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 ps-5 ">
+                <a class="btn btn-danger waves-effect waves-light " onclick="cancelSolicitud()">
+                    Cancelar
+                </a>
+            </div>
+            <div class="col-sm-8 text-md-end ">
+                <a id="backStepSol" class="btn btn-warning waves-effect waves-light w-10  " onclick="backwardSol()">
+                    Atras
+                </a> <span> </span>
+                <button id="fwdStepSol" class="btn btn-info waves-effect waves-light " onclick="nextStepSol()">
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section layout:fragment="js" th:remove="tag">
+    <th:block th:insert="fragments/salert/scripts"/>
+    <th:block th:insert="fragments/s2/scripts"/>
+    <th:block th:insert="fragments/imask/scripts"/>
+    <th:block th:insert="fragments/datepicker/scripts"/>
+    <script type="text/javascript">
+        var skSolicitud = $("#skSolicitud").val();
+        var skEmpresa = $("#skEmpresa").val();
+        var urlGenderSelect = '[[@{/user/reg/cboGenderFilterS2}]]';
+        var urlTypePhoneSelect = '[[@{/user/reg/cboTypePhoneFilterS2}]]';
+        var urlSectorEcoSelect = '[[@{/user/reg/cboSectorEcoFilterS2}]]';
+        var urlActEcoSelect = '[[@{/user/reg/cboActEcoFilterS2/}]]';
+        var forPropietarioInm = document.getElementsByName("forPropietarioInm");
+        var forTipoActivo = document.getElementsByName("forTipoActivo");
+        var forContaFormal = document.getElementsByName("forContaFormal");
+        var forAttachments = document.getElementsByName("attachments");
+        var telephonesReg = '[[${telefonosEstablecimiento}]]';
+        var propietarioInm = 0;
+        var cdTipoActivo = "I"; // tipo de activo neto
+        var cdContaFormal = 0; // contabilidad no formal
+        var telephoneCounter = 0;
+        TypePhoneSelector('#ccTipoTelDelegate', urlTypePhoneSelect, 1);
+        recibirTelefonos(telephonesReg);
+        for (var i = 0; i < forPropietarioInm.length; i++) {
+            forPropietarioInm[i].addEventListener('change', function () {
+                if (this) {
+                    propietarioInm = esPropietarioInm(this.value == "true");
+                }
+            });
+        };
+        for (var i = 0; i < forTipoActivo.length; i++) {
+            forTipoActivo[i].addEventListener('change', function () {
+                if (this) {
+                    cdTipoActivo = tipoActivoInicial(this.value === "N");
+                }
+            });
+        };
+        for (var i = 0; i < forContaFormal.length; i++) {
+            forContaFormal[i].addEventListener('change', function () {
+                if (this) {
+                    cdContaFormal = esContaduriaFormal(this.value == "true");
+                }
+            });
+        };
+
+        for (var i = 0; i < forAttachments.length; i++) {
+            forAttachments[i].addEventListener('change', function () {
+                if (this) {
+                    showAttachmentName(this, 0);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#telinput").inputmask("9999-9999");
+            $("#activoNeto").inputmask("currency");
+            $("#activoInicial").inputmask("currency");
+            $("#stEmailContador").inputmask("email");
+            renderSelect2('#sectorEcoDelegate' , urlSectorEcoSelect , 5);
+            renderSelect2Depend('#actEcoDelegate' , urlActEcoSelect , '#sectorEcoDelegate');
+            $("#sectorEcoDelegate").on('select2:select', function (e) {
+                $('#actEcoDelegate').trigger('change');
+            });
+            propietarioInm = esPropietarioInm([[${dataCompany.cdPropietarioInm}]] == 1);
+            cdTipoActivo = tipoActivoInicial('[[${dataCompany.cdTipoActivo}]]' == "N");
+            cdContaFormal = esContaduriaFormal([[${dataCompany.cdContaFormal}]] == 1);
+            if (propietarioInm == 1) {
+                $("#radioButtonSi").attr("checked", true);
+            }else{
+                $("#radioButtonNo").attr("checked", true);
+            }
+            if(cdTipoActivo=="N"){
+                $("#radioButtonNeto").attr("checked", true);
+            }else{
+                $("#radioButtonInicial").attr("checked", true);
+            }
+            if(cdContaFormal === 1){
+                $("#radioButtonContaSi").attr("checked", true);
+            }else{
+                $("#radioButtonContaNo").attr("checked", true);
+            }
+            incorporarFiles();
+
+        });
+
+
+        function esPropietarioInm(proieInm){
+            var ret = 0;
+            $("#stPropietarioInm").attr("required", true);
+            $("#stPropietarioInm").removeAttr("disabled");
+            $("#arr_file").removeAttr("disabled");
+            $("#arr_file").attr("required", true);
+            $("#arr_file").attr("style", ' background-color: snow !important');
+            $("#arr_file_input").removeAttr("disabled");
+            $("#arr_file_input").attr("style", ' background-color: snow ');
+            $("#arr_btn").removeAttr("style");
+            $(".astForNoPropietarioInm").show();
+            // $(".astForSiPropietarioInm").hide();
+            if(proieInm){
+                $("#stPropietarioInm").removeAttr("required");
+                $("#stPropietarioInm").attr("disabled", true);
+                $("#arr_file").attr("disabled", true);
+                $("#arr_file").removeAttr("required");
+                $("#arr_file").removeAttr("style");
+                $("#arr_file_input").attr("disabled", true);
+                $("#arr_file_input").removeAttr("required");
+                $("#arr_file_input").removeAttr("style");
+                $("#arr_btn").attr("style", 'pointer-events: none; cursor: default; opacity: 0.5;');
+                $(".astForNoPropietarioInm").hide();
+                // $(".astForSiPropietarioInm").show();
+                ret = 1 ;
+            }
+            ocultarInputsFiles();
+            return ret
+        }
+
+        function tipoActivoInicial(esNetoInicial){
+            var ret ="I";
+            $(".astForActInicial").show();
+            $(".astForActNeto").hide();
+            $("#activoInicial").removeAttr("disabled");
+            $("#activoInicial").attr("required", true);
+            $("#activoInicial").val([[${dataCompany.activoInicial}]]);
+            $("#activoNeto").attr("disabled", true);
+            $("#activoNeto").removeAttr("required");
+            $("#activoNeto").val("");
+            if(esNetoInicial){
+                ret = "N";
+                $(".astForActInicial").hide();
+                $(".astForActNeto").show();
+                $("#activoInicial").attr("disabled", true);
+                $("#activoInicial").removeAttr("required");
+                $("#activoInicial").val("");
+                $("#activoNeto").removeAttr("disabled");
+                $("#activoNeto").attr("required",true);
+                $("#activoNeto").val([[${dataCompany.activoInicial}]]);
+            }
+            ocultarInputsFiles();
+            return ret;
+        }
+
+        function esContaduriaFormal(esFormal){
+            var ret = 0;
+            $(".astForBalance").hide();
+            $(".astForInventario").show();
+            $("#inv_file").attr("required", true);
+            $("#inv_file").attr("style", ' background-color: snow !important');
+            $("#inv_file").removeAttr("disabled");
+            $("#inv_file_input").removeAttr("disabled");
+            $("#inv_file_input").attr("style", ' background-color: snow ');
+            $("#inv_btn").removeAttr("style");
+            $("#bal_file").attr("disabled", true);
+            $("#bal_file").removeAttr("required");
+            $("#bal_file").removeAttr("style");
+            $("#bal_file_input").attr("disabled", true);
+            $("#bal_file_input").removeAttr("style");
+            $("#bal_btn").attr("style", 'pointer-events: none; cursor: default; opacity: 0.5;');
+            if(esFormal){
+                ret = 1
+                $(".astForBalance").show();
+                $(".astForInventario").hide();
+                $("#inv_file").attr("disabled", true);
+                $("#inv_file").removeAttr("required");
+                $("#inv_file").removeAttr("style");
+                $("#inv_file_input").attr("disabled", true);
+                $("#inv_file_input").removeAttr("required");
+                $("#inv_file_input").removeAttr("style");
+                $("#inv_btn").attr("style", 'pointer-events: none; cursor: default; opacity: 0.5;');
+
+                $("#bal_file").removeAttr("disabled");
+                $("#bal_file").attr("required", true);
+                $("#bal_file").attr("style", ' background-color: snow !important');
+                $("#bal_file_input").removeAttr("disabled");
+                $("#bal_file_input").attr("style", ' background-color: snow ');
+                $("#bal_btn").removeAttr("style");
+            }
+            ocultarInputsFiles();
+            return ret;
+        }
+
+        function nextStepSol() {
+            let filesElements = document.getElementsByClassName('files');
+            if (validRequiredForm('financialsDataForm') && validatorFiles(filesElements)) {
+                var stDenominacion = $("#stDenominacion").val();
+                var stDireccionInmueble = $("#stDireccionInmueble").val();
+                var stPropietarioInm = $("#stPropietarioInm").val();
+                var sectorEcoDelegate = $("#sectorEcoDelegate").val();
+                var actEcoDelegate = $("#actEcoDelegate").val();
+                var fcInicioOperaciones = $("#fcInicioOperaciones").val();
+                var activoInicial = $("#activoInicial").val();
+                var activoNeto = $("#activoNeto").val();
+                var stMatricula = $("#stMatricula").val();
+                var stNombreContador = $("#stNombreContador").val();
+                var stApellidoContador = $("#stApellidoContador").val();
+                var genGeneroContadorDelegate = $("#genGeneroContadorDelegate").val();
+                var stEmailContador = $("#stEmailContador").val();
+                var comentario = $("#comentario").val();
+                let arr_file = document.querySelector('#arr_file').files[0];
+                let bal_file = document.querySelector('#bal_file').files[0];
+                let inv_file = document.querySelector('#inv_file').files[0];
+                let data = new FormData();
+                data.append('skSolicitud', skSolicitud);
+                data.append('skEmpresa', skEmpresa);
+                data.append('stDenominacion', stDenominacion);
+                data.append('stDireccionInmueble', stDireccionInmueble);
+                data.append('cdPropietarioInm', propietarioInm);
+                data.append('cdTipoActivo', cdTipoActivo);
+                data.append('cdContaFormal', cdContaFormal);
+                data.append('stPropietarioInm', stPropietarioInm);
+                data.append('sectorEcoDelegate', sectorEcoDelegate);
+                data.append('actEcoDelegate', actEcoDelegate);
+                data.append('fcInicioOperaciones', fcInicioOperaciones);
+                data.append('activoInicial', activoInicial);
+                data.append('activoNeto', activoNeto);
+                data.append('stMatricula', stMatricula);
+                data.append('stNombreContador', stNombreContador);
+                data.append('stApellidoContador', stApellidoContador);
+                data.append('genGeneroContadorDelegate', genGeneroContadorDelegate);
+                data.append('stEmailContador', stEmailContador);
+                data.append('comentario', comentario);
+                data.append('arrFile', arr_file);
+                data.append('balFile', bal_file);
+                data.append('invFile', inv_file);
+                $.ajax({
+                    data: data,
+                    url: '../saveDataFinancials',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        if (result.success === true) {
+                            window.location.href = '../creden/' + skEmpresa;
+                        } else {
+                            Swal.fire({
+                                title: "Error!", text: "Error ingresando sus datos..." + result.message, icon: 'error'
+                            });
+                        }
+                    }, error: function (x, e, thrownError) {
+                        Swal.fire({title: "¡Error!", text: "Error interno del servidor.", icon: 'error'});
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "¡Información Incompleta!", text: "Favor completar todos los campos marcados con * , para poder continuar", icon: 'warning'
+                });
+            }
+        }
+        let validatorFiles = (elementsFile) => {
+            let cErrors = 0;
+            let allowed_mime_types = ['application/pdf'];
+            let allowed_size_mb = 2;
+            for (var i = 0; i < elementsFile.length; i++) {
+                if ((elementsFile[i].required)) {
+                    if ((!elementsFile[i].files[0])) {
+                        $("#" + elementsFile[i].id + "Error1").show();
+                        cErrors++;
+                    } else if (allowed_mime_types.indexOf(elementsFile[i].files[0].type) == -1) {
+                        $("#" + elementsFile[i].id + "Error2").show();
+                        cErrors++;
+                    } else if (elementsFile[i].files[0].size > allowed_size_mb * 1024 * 1024) {
+                        $("#" + elementsFile[i].id + "Error3").show();
+                        cErrors++;
+                    }
+                }
+            }
+            return (cErrors === 0);
+        };
+
+        let validRequiredForm = (idForm) => {
+            $("." + "error-form").hide();
+            let inputs = document.getElementById(idForm).elements;
+            let cErrors = 0;
+            let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            let regexNum = /[0-9]/;
+            let radioButtonsPropietarioInm = 2;
+            let radioButtonsTipoActivo = 2;
+            let radioButtonsContaFormal = 2;
+            Array.from(inputs).forEach(function (elemento) {
+                if (elemento.nodeName.toLowerCase() === "select"){
+                    if ((elemento.required) && (!elemento.value || elemento.value == "0")) {
+                        $("#" + elemento.id + "Error1").show();
+                        cErrors++;
+                    }
+                }else if (elemento.nodeName.toLowerCase() === "input" && !elemento.classList.contains("files") )  {
+                    if ((elemento.required) && (!elemento.value)) {
+                        $("#" + elemento.id + "Error1").show();
+                        cErrors++;
+                    } else if ((elemento.classList.contains("email")) && (!regexEmail.test(elemento.value))) {
+                        $("." + elemento.id + "-error-format").show();
+                        cErrors++;
+                    }else if ((elemento.classList.contains("propietario"))) {
+                        if (elemento.checked === true) {
+                            radioButtonsPropietarioInm--;
+                            $("#" + elemento.name + "Error1").hide();
+                        }
+                        if (radioButtonsPropietarioInm === 2) {
+                            $("#" + elemento.name + "Error1").show();
+                        }
+                    }else if ((elemento.classList.contains("tipoActivo"))) {
+                        if (elemento.checked === true) {
+                            radioButtonsTipoActivo--;
+                            $("#" + elemento.name + "Error1").hide();
+                        }
+                        if (radioButtonsTipoActivo === 2) {
+                            $("#" + elemento.name + "Error1").show();
+                        }
+                    }else if ((elemento.classList.contains("contaFormal"))) {
+                        if (elemento.checked === true) {
+                            radioButtonsContaFormal--;
+                            $("#" + elemento.name + "Error1").hide();
+                        }
+                        if (radioButtonsContaFormal === 2) {
+                            $("#" + elemento.name + "Error1").show();
+                        }
+                    }
+                }
+            });
+            if (telephoneCounter < 1) {
+                $("#phoneListError1").show();
+                cErrors++;
+            }
+            if (radioButtonsPropietarioInm === 2 || radioButtonsTipoActivo === 2 || radioButtonsContaFormal === 2) {
+                cErrors++;
+            }
+            return (cErrors === 0);
+        };
+
+
+        function TypePhoneSelector(selector, urlsegment, rows) {
+            $(selector)
+                .wrap('<div style="position:relative"></div>')
+                .select2({
+                    placeholder: 'Seleccionar Tipo de Telefono', language: "es", // dropdownParent: $(selector).parent(),
+                    width: '100%', minimumInputLength: 0, once: true, ajax: {
+                        url: urlsegment, dataType: 'json', data: function (params) {
+                            return {
+                                q: params.term, // search term
+                                page: 1, rows: rows
+                            };
+                        }, cache: true
+                    }
+                });
+        };
+        function forActEcoSelector(selector, urlsegment, rows) {
+            $(selector)
+                .wrap('<div style="position:relative"></div>')
+                .select2({
+                    placeholder: 'Seleccionar Sector Económico',
+                    language: "es",
+                    // dropdownParent: $(selector).parent(),
+                    width: '100%',
+                    minimumInputLength: 0,
+                    once: true,
+                    ajax: {
+                        url: urlsegment, dataType: 'json', data: function (params) {
+                            return {
+                                q: params.term, // search term
+                                page: 1,
+                                rows: rows
+                            };
+                        }, cache: true
+                    }
+                });
+        };
+
+        function recibirTelefonos(listado) {
+            if (listado && listado.length > 3) {
+                var listadoLimpio = listado.replace("[", "");
+                listadoLimpio = listadoLimpio.replace("]", "");
+                listadoLimpio = listadoLimpio.replace(" ", "");
+                var listadoSplit = listadoLimpio.split(",");
+                for (let i = 0; i < listadoSplit.length; i++) {
+                    addPhoneToDisplayList(listadoSplit[i]);
+                    telephoneCounter++;
+                }
+            }
+        }
+
+        function addTelephoneFunction() {
+            var newtel = $("#telinput").val();
+            var tipoTel = $("#ccTipoTelDelegate").val();
+            var tipoTitular = "ESTABLECIMIENTO";
+            $("#phoneListError1").hide();
+            if (!tipoTel) {
+                Swal.fire({
+                    title: "¡Seleccione Tipo de Teléfono!", text: "Favor elija tipo de teléfono", icon: 'warning'
+                });
+                return false;
+            }
+            if (newtel.replaceAll("_", "").length < 9) {
+                Swal.fire({title: "¡Teléfono Inválido!", text: "Favor ingrese un número telefonico", icon: 'warning'});
+                return false;
+            }
+            if (telephoneCounter >= 5) {
+                Swal.fire({title: "¡Demasiados!", text: "Cantidad máxima de teléfonos alcanzada!", icon: 'info'});
+                return false;
+            }
+            $.ajax({
+                data: {
+                    skEmpresa: skEmpresa, tipoTel: tipoTel, newtel: newtel, tipoTitular:tipoTitular,
+                },
+                url: '../saveTelephoneOther',
+                type: 'POST',
+                success: function (result) {
+                    if (result.success === true) {
+                        telephoneCounter++;
+                        addPhoneToDisplayList(newtel);
+                    } else {
+                        Swal.fire({
+                            title: "Error!", text: "Error ingresando número..." + result.message, icon: 'error'
+                        });
+                    }
+                }, error: function (x, e, thrownError) {
+                    Swal.fire({title: "¡Error!", text: "Error interno del servidor.", icon: 'error'});
+                }
+            });
+            $("#telinput").val("");
+        };
+
+        function addPhoneToDisplayList(phone) {
+            var telForId = phone.replace("-", "");
+            var phoneListElement = document.getElementById("phoneList");
+            var li = document.createElement("li");
+            li.setAttribute('id', telForId);
+            li.setAttribute('class', "col-sm-2 px-0");
+            li.appendChild(document.createTextNode(phone));
+            var ico = document.createElement("i");
+            ico.setAttribute('id', "delet" + telForId);
+            ico.setAttribute('class', "fas fa-trash-alt fa-1x opacity-75 ico-hover");
+            ico.setAttribute('style', "cursor: pointer;");
+            ico.setAttribute('onclick', "removePhoneForList(" + telForId + ")");
+            li.appendChild(ico);
+            phoneListElement.appendChild(li);
+        }
+
+        function removePhoneForList(idElement) {
+            $.ajax({
+                data: {
+                    skEmpresa: skEmpresa, phone: idElement, tipoTitular: 'ESTABLECIMIENTO'
+                },
+                url: '../removeTelephone',
+                type: 'POST',
+                success: function (result) {
+                    if (result.success === true) {
+                        removeItem(idElement);
+                        telephoneCounter--;
+                        return true;
+                    } else {
+                        Swal.fire({title: "Error!", text: result.message, icon: 'error'});
+                    }
+                }, error: function (x, e, thrownError) {
+                    Swal.fire({title: "¡Error!", text: "Error interno del servidor.", icon: 'error'});
+                }
+            });
+        }
+
+        function removeItem(idElement) {
+            var phoneListElement = document.getElementById("phoneList");
+            var item = document.getElementById(idElement);
+            phoneListElement.removeChild(item);
+        }
+        function showAttachmentName(filelement, isFromDB) {
+            $("#" + filelement.id + "_input").hide();
+            $("#" + filelement.id + "_x").parent().remove();
+            for (var i = 0; i < filelement.files.length; i++) {
+                var shortName =  recortarNameForFile(filelement.files.item(i).name);
+                let fileBloc = $("<span/>", {class: "file-block"});
+                let fileName = $("<span/>", {id: (filelement.id + "_"), class: "name", text: shortName});
+                fileBloc.append('<span id="' + filelement.id + "_x" + '" class="file-delete" onclick="removeFile(' +"'"+ filelement.id +"'"+ ')" ><span>+</span></span>').append(fileName);
+                $("#" + "filesList_" + filelement.id + " > #files-names_" + filelement.id).append(fileBloc);
+            }
+        };
+
+        function removeFile(elementoID) {
+            var skElemento = $("#"+ elementoID + "_db_id").val();
+            if (skElemento) {
+                $.ajax({
+                    data: {skElemento: skElemento},
+                    url: '../deleteFileFromSol',
+                    type: 'POST',
+                    success: function (result) {
+                        if (result.success === true) {
+                            $("#" + elementoID + "_x").parent().remove();
+                            $("#" + elementoID + "_input").show();
+                            $("#" + elementoID + "_db_id").val("");
+                            $("#" + elementoID).val("");
+                            // esExtranjero(extranjero == 1); perdiente confirmar los metodos a usar
+                            Swal.fire({
+                                title: "Listo!", text: "Documento ha sido eliminado de la Solicitud", icon: 'success'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Error!", text: "Error eliminando documento..." + result.message, icon: 'error'
+                            });
+                            return false;
+                        }
+                    }, error: function (x, e, thrownError) {
+                        Swal.fire({
+                            title: "¡Error-Eliminar!", text: "Error interno del servidor", icon: 'error'
+                        });
+                        return false;
+                    }
+                })
+            }else{ // se tiene que hacer asi por las variables que son actualizadas en el caso de estar persistido
+                $("#" + elementoID + "_x").parent().remove();
+                $("#" + elementoID + "_input").show();
+                $("#" + elementoID + "_db_id").val("");
+                $("#" + elementoID).val("");
+                esPropietarioInm(propietarioInm == 1 );
+                tipoActivoInicial(cdTipoActivo == 'N' );
+                esContaduriaFormal(cdContaFormal == 1 );
+            }
+            return ; //para validar que archivo deben pedirse obligatorio
+        };
+
+        function incorporarFiles() {
+            var skArrFromDB = $("#arr_file_db_id").val();
+            var nameArrFileFromDB = $("#arr_file_db_name").val();
+            var skBalFromDB = $("#bal_file_db_id").val();
+            var nameBalFileFromDB = $("#bal_file_db_name").val();
+            var skInvFromDB = $("#inv_file_db_id").val();
+            var nameInvFileFromDB = $("#inv_file_db_name").val();
+            if(skArrFromDB){
+                var elementFile = "arr_file";
+                mostrarFileElement(elementFile , nameArrFileFromDB);
+            }
+            if(skBalFromDB){
+                var elementFile = "bal_file";
+                mostrarFileElement(elementFile , nameBalFileFromDB);
+            }
+            if(skInvFromDB){
+                var elementFile = "inv_file";
+                mostrarFileElement(elementFile , nameInvFileFromDB);
+            }
+        };
+
+        function mostrarFileElement(elementFile , nameDuiFileFromDB){
+            var fileInput = document.getElementById(elementFile);
+            var myFile = new File(['just for required'], 'file_dummie.pdf', {
+                type: 'application/pdf',
+                lastModified: new Date(),
+            });
+            var dataTransfer = new DataTransfer();
+            dataTransfer.items.add(myFile);
+            fileInput.files = dataTransfer.files;
+            $("#" + elementFile + "_input").hide();
+            // $("#"+ elementFile).removeAttr("required");
+            nameDuiFileFromDB = recortarNameForFile(nameDuiFileFromDB);
+            let fileBloc = $("<span/>", {class: "file-block"});
+            let fileName = $("<span/>", {id: (elementFile + "_"), class: "name", text: nameDuiFileFromDB});
+            fileBloc.append('<span id="' + elementFile + "_x" + '" class="file-delete" onclick="removeFile(' + "'" + elementFile + "'" + ')" ><span>+</span></span>').append(fileName);
+            $("#" + "filesList_" + elementFile + " > #files-names_" + elementFile).append(fileBloc);
+        };
+
+        function ocultarInputsFiles(){
+            var liFiles = document.getElementsByClassName("file-delete");
+            for (var i = 0; i < liFiles.length; i++) {
+                var idName = liFiles[i].id;
+                idName = idName.replaceAll("x", "input");
+                $("#" + idName).hide();
+            }
+        }
+
+        function recortarNameForFile(fullName){
+            var shortName = fullName;
+            if (shortName.length > 35) {
+                shortName = fullName.substring(0, 25) + "..." + fullName.substring((fullName.length - 9), fullName.length);
+            }
+            return shortName;
+        }
+
+
+        function clickOn(elemento) {
+            $("#" + elemento).click();
+        };
+
+        $('.datepicker-initializer').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            todayHighlight: true,
+            orientation: "bottom",
+            endDate: (new Date()),
+            language: "es"
+        });
+
+        function cancelSolicitud() {
+            Swal.fire({
+                title: '<strong>¿Desea Salir?</strong>', icon: 'info',
+                text: 'De hacerlo, perderá todos los datos que ha ingresado.', showCloseButton: true,
+                showCancelButton: true, focusCancel: true, cancelButtonText: 'No', confirmButtonText: 'Si',
+                reverseButtons: true
+                //  ,cancelButtonColor: '#d33' //confirmar si desean color rojo en este boton
+            }).then(function (result) {
+                if (result.value === true) {
+                    $.ajax({  // se usa este ajax ya que el del archivo 04 - ajaxFormUtils.js no coloca el loading
+                        data: {
+                            skSolicitud: skSolicitud
+                        }, url: '../cancelRqst', type: 'POST', success: function (result) {
+                            if (result.success === true) {
+                                window.location.href = '../../../index';
+                            } else {
+                                Swal.fire({
+                                    title: "Error!", text: "Error eliminando solicitud..." + result.message,
+                                    icon: 'error'
+                                });
+                            }
+                        },
+                    });
+                }
+            });
+        }
+
+        function backwardSol() {
+            window.location.href = '../data/'+skEmpresa;
+        }
+
+
+    </script>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/unwrap-layout}">
+    <head>
+        <title>Registro de Usuario</title>
+    </head>
+    <body>
+        <section layout:fragment="content" th:remove="tag">
+            <div class="container-fluid w-100">
+                <div class="row">
+                    <div class="col col-9 mx-auto">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="idFormTipoPersona" class="needs-validation needs-validation-manual form-horizontal" novalidate th:action="@{/public/regUser/elegirTipoPersona}" th:object="${ccPersona}" method="POST">
+                                    <div class="row mt-1 ms-3">
+                                        <div class="col">
+                                            <label class="text-black">Paso N° 1</label>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1 mb-4 ms-3">
+                                        <div class="col">
+                                            <label class="text-info">Creaci&oacute;n de Usuario</label>
+                                        </div>
+                                    </div>
+                                    <fieldset class="w-100 mt-4 border-1-secundary fieldset-control">
+                                        <legend class="legend-control"><h4>Registro de Usuario</h4></legend>
+                                        <th:block th:insert="~{fragments/service-response-painter}" th:remove="tag"/>
+                                        <div class="p-4">
+                                            <div class="row mt-2 h-75 w-100">
+                                                <div class="col col-5">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label class="text-black fw-normal d-sm-table-cell align-middle h-px-100">Persona Natural</label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <img th:src="@{/images/persona-natural.png}" alt="Persona Natural"
+                                                                 class="img-inline text-right align-middle" width="80" height="80"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label class="text-black w-65">Es aquella que act&uacute;a a t&iacute;tulo personal con su nombre.</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col mt-p-15">
+                                                            <label class="text-black">Ejemplo:</label>
+                                                            <ul class="text-black">
+                                                                <li>Juan L&oacute;pez</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-2">&nbsp;</div>
+                                                <div class="col col-5">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label class="text-black align-middle fw-normal d-sm-table-cell align-middle h-px-100">Persona Jurídica</label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <img th:src="@{/images/persona-juridica.png}" alt="Persona Jur&iacute;dica"
+                                                                 class="img-inline text-right align-middle" width="80" height="80"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="text-black w-65">
+                                                            Es una entidad que esta formada por dos o más individuos o personas jur&iacute;dicas y
+                                                            actúa a trav&eacute;s de sus representantes legales.
+                                                        </label>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col mt-p-5">
+                                                            <label class="text-black">Ejemplo:</label>
+                                                            <ul class="text-black">
+                                                                <li>Fundaci&oacute;n Campos</li>
+                                                                <li>Callejas S.A. de C.V.</li>
+                                                                <li>ACOFINGES de R.L.</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-5">
+                                                <div class="col">
+                                                    <div class="row mt-1">
+                                                        <div class="col">
+                                                            <label class="text-black fw-normal">
+                                                                Seleccione el tipo de persona: <b class="text-danger">*</b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col">&nbsp;</div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col col-5">
+                                                            <div class="form-check float-end w-50 mr-p-20">
+                                                                <input type="radio" class="form-check-input" th:field="*{cdTipoPersona}" value="N" id="idTipoPersona1"/>
+                                                                <label class="form-check-label text-black" for="idTipoPersona1">Persona Natural</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col col-2">&nbsp;</div>
+                                                        <div class="col col-5">
+                                                            <div class="form-check float-left w-50 ml-p-20">
+                                                                <input type="radio" class="form-check-input" th:field="*{cdTipoPersona}" value="J" id="idTipoPersona2" />
+                                                                <label class="form-check-label text-black" for="idTipoPersona2">Persona Jur&iacute;dica</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-p-5">
+                                                <div class="col col-6">
+                                                    <a class="btn btn-danger waves-effect waves-light float-end me-5 w-35" th:href="@{/public/index}">Cancelar</a>
+                                                </div>
+                                                <div class="col col-6">
+                                                    <button id="next1" type="submit" class="btn btn-info waves-effect waves-light ms-5 w-35" disabled>Siguiente</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section layout:fragment="js" th:remove="tag">
+            <script type="text/javascript"> $(function() {
+                $('input[type=radio][name=cdTipoPersona]').change(function() {
+                    $('#next1').prop('disabled', false);
+                });
+            });</script>
+            <script th:src="@{/js/pages/registroUsuario.js}"></script>
+        </section>
+    </body>
+</html>

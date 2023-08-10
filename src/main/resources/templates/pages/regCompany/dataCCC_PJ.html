@@ -1,0 +1,173 @@
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>Registro Empresa</title>
+    <th:block th:insert="fragments/custom/style"/>
+    <th:block th:insert="fragments/salert/style"/>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container-fluid">
+        <div class="header">
+            <h1 class="header-title">
+                Registro de Empresa
+            </h1>
+        </div>
+        <h2 class="header-title">
+            <p class="step1" th:text="#{msg.fourStep}"></p>
+            <input th:field="*{sol.skSolicitud}" id="skSolicitud" hidden="hidden">
+            <input th:field="*{dataCompany.skEmpresa}" id="skEmpresa" hidden="hidden">
+        </h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body " style="line-height: 1.8">
+                        <div class="card-subtitle mb-3 border-bottom pb-3">
+                            Datos de la Empresa
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Razón Social: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                th:field="*{dataCompany.stRazonSocial}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Dirección de Domicilio: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                th:field="*{dataCompany.stDireccion}" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>NIT: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                       th:field="*{dataCompany.nit}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Teléfono: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                       th:field="*{firstPhone}" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Dirección Cobros: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                       th:field="*{dataCompany.stDireccionCobros}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>Correo Electrónico: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                th:field="*{dataCompany.stEmail}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 ps-5">
+                                <p>NRC: </p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control form-control-lite" readonly
+                                       th:field="*{dataCompany.nrc}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 ps-5 ">
+                <a class="btn btn-danger waves-effect waves-light " onclick="cancelSolicitud()">
+                    Cancelar
+                </a>
+            </div>
+            <div class="col-sm-8 text-md-end ">
+                <a id="backStepSol" class="btn btn-warning waves-effect waves-light w-10  " onclick="backwardSol()">
+                    Atras
+                </a> <span> </span>
+                <button id="fwdStepSol" class="btn btn-info waves-effect waves-light " onclick="nextStepSol()">
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+<section layout:fragment="js" th:remove="tag">
+    <th:block th:insert="fragments/salert/scripts"/>
+    <script th:src="@{/js/pages/firstStepsCompanyReg.js}"></script>
+    <script type="text/javascript">
+        var skSolicitud = $("#skSolicitud").val();
+        var skEmpresa = $("#skEmpresa").val();
+
+
+        function backwardSol() {
+            window.location.href = '/user/reg/company?back=' + 1
+        }
+
+        function nextStepSol() {
+            window.location.href = '../dataPJ2/' + skEmpresa;
+        }
+
+        function cancelSolicitud() {
+            Swal.fire({
+                title: '<strong>¿Desea Salir?</strong>',
+                icon: 'info',
+                text: 'De hacerlo, perderá todos los datos que ha ingresado.',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusCancel: true,
+                cancelButtonText: 'No',
+                confirmButtonText: 'Si',
+                reverseButtons: true
+                //  ,cancelButtonColor: '#d33' //confirmar si desean color rojo en este boton
+            }).then(function (result) {
+                if (result.value === true) {
+                    $.ajax({  // se usa este ajax ya que el del archivo 04 - ajaxFormUtils.js no muestra el loading
+                        data: {
+                            skSolicitud: skSolicitud
+                        }, url: '../cancelRqst', type: 'POST', success: function (result) {
+                            if (result.success === true) {
+                                window.location.href = '../../../index';
+                            } else {
+                                Swal.fire({
+                                    title: "Error!", text: "Error eliminando solicitud..." + result.message,
+                                    type: 'error'
+                                });
+                            }
+                        },
+                    });
+                }
+            });
+        }
+
+    </script>
+
+</section>
+</body>
+</html>

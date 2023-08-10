@@ -1,0 +1,75 @@
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/unwrap-layout}">
+    <head>
+        <title>Registro de Usuario</title>
+    </head>
+    <body>
+        <section layout:fragment="content" th:remove="tag">
+            <div class="container-fluid w-100">
+                <div class="row">
+                    <div class="col col-6 mx-auto">
+                        <div class="card">
+                            <br/>
+                            <br/>
+                            <form id="formRegSuccess" class="needs-validation needs-validation-manual form-horizontal" novalidate th:action="@{/public/regUser/sendMail}" th:object="${ccPersona}" method="POST">
+                                <div class="row">
+                                    <div class="col-sm-12 col-lg-12">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                    <i class="fas fa-8x fa-check-circle text-success"></i>
+
+                                                    <label class="col-sm-12 control-label col-form-label fw-bold fs-7">
+                                                        Muchas gracias por registrarse a los servicios en l&iacute;nea
+                                                    </label>
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                    <div class="col-sm-10">
+                                                        <label class="col-sm-12 control-label col-form-label pre-wrap fw-bold fs-4" th:text="'Se le ha enviado un correo electr&oacute;nico a la direcci&oacute;n ' +${ccPersona.cdUserDelegate}+ ' para activar su cuenta.'">
+                                                        </label>
+                                                    </div>
+                                            </div>
+                                            <div class="col-sm-12 mt-1">
+                                                    <div class="col-sm-10">
+                                                        <label class="col-sm-12 control-label col-form-label fw-bold fs-4">
+                                                            NOTA: No cierre esta p&aacute;gina hasta que no haya recibido las instrucciones enviadas a su correo electr&oacute;nico.
+                                                        </label>
+                                                    </div>
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                    <div class="col-sm-10 row">
+                                                        <label class="col col-8 control-label col-form-label fst-normal fs-4">
+                                                            ¿Aun no ha recibido su correo electr&oacute;nico?.
+                                                        </label>
+                                                        <button type="submit" id="idBtnSiguiente" class="btn btn-link waves-effect waves-light col col-3">Haga clic aqu&iacute;.</button>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" th:field="*{cdUserDelegate}" id="idCdUserDelegate">
+                                        <input type="hidden" th:field="*{skPersona}" id="idSkPersona">
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <div class="row">
+                                    <div class="col col-5">&nbsp;</div>
+                                    <div class="col col-2">
+                                        <a class="btn btn-danger waves-effect waves-effect waves-light w-100" th:href="@{/public/index}">Salir</a>
+                                    </div>
+                                    <div class="col col-5">&nbsp;</div>
+                                </div>
+                                <br/>
+                                <br/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div th:fragment="script-valid-ccc">
+            <script th:inline="javascript">
+                const urlHome = /*[[@{/public/index}]]*/"";
+            </script>
+        </div>
+    </body>
+</html>

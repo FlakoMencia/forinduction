@@ -1,0 +1,128 @@
+<!--decorated page-->
+<html lang="en" dir="ltr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/basic-layout}">
+
+<head>
+    <title>Privilegios - [[${secRole.sdescription}]]</title>
+</head>
+
+<body>
+    <section layout:fragment="breadcrumb" th:remove="tag">
+
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 col-md-5 align-self-center">
+                    <h4 class="page-title" th:inline="text">Privilegios del Rol: [[${secRole.sdescription}]]</h4>
+                    <div class="d-flex align-items-center">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a th:href="@{/}" th:inline="text">[[#{label.home}]]</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Privilegios</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section layout:fragment="content" th:remove="tag">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body"  th:each="priv : ${allPrivileges}">
+                        
+                        <h4 class="card-title">[[${priv.sDescription}]]  
+                            <input class="privcheck" type="checkbox" th:value="${priv.skPrivilege}" th:id="${priv.skPrivilege}" th:checked="${#lists.containsAll(rolePrivileges, priv.childrenList)}"/>
+                        </h4>
+                       <div class="row">
+                           <div  th:each="privc : ${priv.childrenList}" class="col-12 col-md-4 col-lg-3">
+                        <fieldset class="checkbox">
+                            <label>
+                                <input th:data-group="${priv.skPrivilege}" class="privcheck" type="checkbox" th:id="${privc.skPrivilege}" th:value="${privc.skPrivilege}" th:checked="${#lists.contains(rolePrivileges, privc)}"/> [[${privc.sDescription}]]
+                            </label>
+                        </fieldset>
+                           </div>
+                    </div>  
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section layout:fragment="js" th:remove="tag">
+      <script type="text/javascript">
+        
+        var skRole = [[${secRole.skRole}]];
+       
+        $(".privcheck").change(function() {
+           
+            let value = this.value;
+            if(this.checked){
+                savePrivilege(value, this)
+            }else{
+                $( "#" + $(this).attr('data-group')).prop('checked', false);
+                removePrivilege(value, this);
+            }
+            
+        });
+
+        function removePrivilege(skPrvilege, check){
+
+            $.ajax({
+                data: {
+                    skPrvilege:skPrvilege
+                },
+                url: '/secRole/'+skRole+'/removePrivilege',
+                type: 'POST',
+                success: function (result) {
+                    if (result.success === true) {
+                        $( "input[data-group='" + skPrvilege + "']" ).prop('checked', false);
+                    } else {
+                        $(check).prop('checked', true);
+                        Swal.fire({title: "Error!", text: result.message, type: 'error'});
+                    }
+                },
+                error: function (x, e, thrownError) {
+                    $(check).prop('checked', true);
+                    Swal.fire({title: "Error!", text: "Error interno del servidor.", type: 'error'});
+                }
+            });
+        }
+
+
+        function savePrivilege(skPrvilege, check){
+
+            $.ajax({
+                data: {
+                    skPrvilege:skPrvilege
+                },
+                url: '/secRole/'+skRole+'/addPrivilege',
+                type: 'POST',
+                success: function (result) {
+                    if (result.success === true) {
+                        $( "input[data-group='" + skPrvilege + "']" ).prop('checked', true);
+                    } else {
+                        $(check).prop('checked', false);
+                        Swal.fire({title: "Error!", text: result.message, type: 'error'});
+                    }
+                },
+                error: function (x, e, thrownError) {
+                    $(check).prop('checked', false);
+                    Swal.fire({title: "Error!", text: "Error interno del servidor.", type: 'error'});
+                }
+            });
+        }
+
+        
+
+      </script>
+
+    </section>
+
+</body>
+
+</html>

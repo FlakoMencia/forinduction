@@ -1,0 +1,233 @@
+<!--decorated page-->
+<html lang="en" dir="ltr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/basic-layout}">
+
+<head>
+    <title th:inline="text" th:text="'Versionamiento'"></title>
+</head>
+
+<body>
+<section layout:fragment="breadcrumb" th:remove="tag">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title" th:inline="text" th:text="'Versionamiento'"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/index}" th:inline="text" th:text="#{label.home}"></a>
+                            </li>
+                            <li class="breadcrumb-item"><a th:href="@{/versionamiento}" th:inline="text" th:text="'Versionamiento'"></a></li>
+                            <li class="breadcrumb-item active" aria-current="page" id="bcTabla"></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section layout:fragment="content" th:remove="tag">
+    <div class="row" id="divLogTabla">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <th:block th:insert="fragments/service-response-painter" th:remove="tag"/>
+                    <h4 class="card-title" id="titleTabla" th:utext="'Historial Catálogo '+${tabla}"></h4>
+                    <div class="table-responsive">
+                        <table id="tblLogTabla" class="table table-bordered" width="100%">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section layout:fragment="js" th:remove="tag">
+    <!-- Required libraries -->
+    <script th:inline="javascript">
+        const dataTablesLangUrl = /*[[@{#{datatables.lang}}]]*/'/assets/extra-libs/datatables.net/English.json';
+
+        // URLs para peticiones
+        const urlListVersionamientoLog = /*[[@{/versionamiento/log}]]*/"";
+        const urlGetDataTabla = /*[[@{/versionamiento/tabla/metadata}]]*/"";
+        const urlGetLogRegistro = /*[[@{/versionamiento/logRegistro}]]*/"";
+
+    </script>
+    <script>
+        var tabla = "[[${tabla}]]";
+        var idTabla;
+        var tableLog;
+
+        function dataDynamicTable(columns) {
+            tableLog = $('table#tblLogTabla').DataTable({
+                language: {url: dataTablesLangUrl},
+                "initComplete": function (settings, json) {
+                    eventDetail();
+                },
+                ajax: {
+                    url: urlListVersionamientoLog,
+                    data: {'tabla': tabla},
+                    type: 'get',
+                    dataType: "json"
+                },
+                serverSide: true,
+                orderCellsTop: true,
+                fixedHeader: true,
+                destroy: true,
+                columns: columns.reverse(),
+                rowCallback: function (row, data, index) {
+                    //Agregando color a columnas según tipo de cambio (estado)
+                    if (data.tipoCambio === "ELIMINADO") {
+                        $('td', row).css('background-color', '#FFCFCF');
+                    } else if (data.tipoCambio === "MODIFICADO") {
+                        $('td', row).css('background-color', '#FFF180');
+                    }
+                }
+            });
+            renderDatatableFilters("#tblLogTabla");
+        }
+
+        function createDynamicTable(data) {
+            var cell;
+            var metadata = orderColumns(data.columnaVersionada);
+            var columns = [];
+            var table = document.getElementById("tblLogTabla");
+            var header = table.createTHead();
+            var row = header.insertRow(0);
+
+            //Agregando tipo de cambio del registro
+            columns.push({data: 'tipoCambio'});
+            cell = row.insertCell(0);
+            cell.innerHTML = "Estado Registro";
+
+            //Agregando datos específicos de tabla
+            for (var {nombreColumna: nombre, etiquetaColumna: etiqueta} of metadata) {
+                columns.push({data: nombre});
+                cell = row.insertCell(0);
+                cell.innerHTML = etiqueta;
+            }
+
+            //Agregando boton para ver log de los registros
+            columns.push({
+                data: idTabla, name: "detalle", className: 'details-control', width: "5%", render: function (idRegistro, type, row) {
+                    return renderDetail(idRegistro)
+                }
+            });
+            cell = row.insertCell(0);
+            cell.innerHTML = "Acciones";
+
+            dataDynamicTable(columns);
+        }
+
+        function createDynamicTableLogRegistro(data, idRegistro) {
+            var cell;
+            var metadata = orderColumns(data.columnaVersionada);
+            var columns = [];
+            var table = document.getElementById('subtable_' + idRegistro);
+            var header = table.createTHead();
+            var row = header.insertRow(0);
+
+            //Agregando datos específicos de tabla
+            for (var {nombreColumna: nombre, etiquetaColumna: etiqueta} of metadata) {
+                columns.push({data: nombre});
+                cell = row.insertCell(0);
+                cell.innerHTML = etiqueta;
+            }
+
+            //Agregando número de versión de registro
+            columns.push({data: 'numeroVersion'});
+            cell = row.insertCell(0);
+            cell.innerHTML = "Número Versión";
+
+            getTablaLogRegistro(idRegistro, columns);
+        }
+
+        function orderColumns(data) {
+            return data.sort((a, b) => Number(b.orden) - Number(a.orden));
+        }
+
+        function getMetadataTabla(tipo, idRegistro) {
+            $.ajax({
+                data: {tabla: tabla},
+                url: urlGetDataTabla,
+                type: 'GET',
+                success: function (result) {
+                    if (result !== null) {
+                        if (tipo === "table") {
+                            idTabla = result.data.idTabla;
+                            $("#titleTabla").text("Historial de " + result.data.etiqueta);
+                            $("#bcTabla").text(result.data.etiqueta);
+                            createDynamicTable(result.data);
+                        } else if (tipo === "subtable") {
+                            createDynamicTableLogRegistro(result.data, idRegistro)
+                        }
+                    } else {
+                        Swal.fire({title: "Error!", text: result.message, type: 'error'});
+                    }
+                },
+                error: function (xhr, status) {
+                    Swal.fire({title: "Error!", text: "Error interno del servidor.", type: 'error'});
+                }
+            });
+        }
+
+        function renderDetail(idRegistro) {
+            return '<button class="btn waves-effect waves-light btn-sm btn-secondary" type="button" id="btnDetalle_' + idRegistro + '"><i class="fa fa-angle-down"></i></button>';
+        }
+
+        function format(d) {
+            var table = 'subtable_' + d[idTabla];
+            var html = '<div class=\"table-responsive\"><table id=\"' + table + '\" class=\"table table-hover table-bordered\" width=\"100%\">';
+            html += '</table></div>';
+            return html;
+        }
+
+        function eventDetail() {
+            $("[id^=btnDetalle_]").click(function () {
+                var tr = $(this).parents('tr');
+                var row = tableLog.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row (the format() function would return the data to be shown)
+                    row.child(format(row.data())).show();
+                    getMetadataTabla("subtable", row.data()[idTabla]);
+                    tr.addClass('shown');
+                }
+            });
+        }
+
+        function getTablaLogRegistro(idRegistro, columns) {
+            $('table#subtable_' + idRegistro).DataTable({
+                language: {url: dataTablesLangUrl},
+                ajax: {
+                    url: urlGetLogRegistro,
+                    data: {'tabla': tabla, id: idRegistro},
+                    type: 'get',
+                    dataType: "json"
+                },
+                serverSide: true,
+                info: false,
+                lengthChange: false,
+                searching: false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                columns: columns.reverse()
+            });
+        }
+
+        (function () {
+            getMetadataTabla("table");
+        })();
+    </script>
+</section>
+</body>
+
+</html>

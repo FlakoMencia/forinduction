@@ -1,0 +1,132 @@
+<!--decorated page-->
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/basic-layout}">
+
+<head>
+    <title>SecRole</title>
+
+    <!-- Custom CSS from main page-->
+</head>
+<body>
+<section layout:fragment="breadcrumb" th:remove="tag">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title">Dashboard</h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/index}" th:inline="text" th:text="#{label.home}"></a></li>
+                            <li class="breadcrumb-item" aria-current="page"><a th:href="@{/user/secRole}" th:inline="text" th:text="#{label.list} + ' '  + 'SecRole'"></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">SecRole</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section layout:fragment="content" th:remove="tag">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">SecRole</h4>
+                    <h6 class="card-subtitle">SecRole</h6>
+                </div>
+                <hr class="m-t-0">
+                <form id="formSecRole" enctype="multipart/form-data" class="needs-validation needs-validation-manual form-horizontal" novalidate th:action="@{/user/secRole/save}" th:object="${secRole}" method="POST">
+                    <ul th:if="${#fields.hasErrors('global')}">
+                        <li th:each="err : ${#fields.errors('global')}" th:text="${err}"></li>
+                    </ul>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <div class="form-group row">
+                                    <label for="cdRole" class="col-sm-2 text-right control-label col-form-label">cdRole</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="cdRole"
+                                                    th:field="*{cdRole}" placeholder="cdRole" 
+                                                    maxlength="50" required>
+                                        <span id="cdRoleError" style="display: none; color: red;">Campo obligatorio</span>
+                                        <div th:errors="*{cdRole}"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="stDescripcion" class="col-sm-2 text-right control-label col-form-label">stDescripcion</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="stDescripcion"
+                                                    th:field="*{stDescripcion}" placeholder="stDescripcion" 
+                                                    maxlength="256" required>
+                                        <span id="stDescripcionError" style="display: none; color: red;">Campo obligatorio</span>
+                                        <div th:errors="*{stDescripcion}"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="isActivo" class="col-sm-2 text-right control-label col-form-label">isActivo</label>
+                                    <div class="col-sm-9">
+                                        <input type="checkbox" id="isActivo"
+                                                    th:field="*{isActivo}" required>
+                                        <span id="isActivoError" style="display: none; color: red;">Campo obligatorio</span>
+                                        <div th:errors="*{isActivo}"></div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" th:field="*{skRole}"/>
+                                <input type="hidden" id="stCreaUsuario" th:field="*{stCreaUsuario}">
+                                <input type="hidden" id="fcCreaFecha" th:field="*{fcCreaFecha}">
+                                <input type="hidden" id="stModUsuario" th:field="*{stModUsuario}">
+                                <input type="hidden" id="fcModFecha" th:field="*{fcModFecha}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group m-b-0 text-center">
+                            <button type="submit" class="btn btn-info waves-effect waves-light" th:text="#{action.save}"></button>
+                            <button id="cancel" type="button" class="btn btn-dark waves-effect waves-light" th:text="#{action.cancel}"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+</section>
+<section layout:fragment="js" th:remove="tag">
+    <!-- Required libraries -->
+    
+    <script th:inline="javascript">
+    </script>
+    <script>
+    /*DatePicker init*/
+    jQuery('.datepicker-initializer').datepicker({
+        format: "dd/mm/yyyy",
+        autoclose: true,
+        todayHighlight: true,
+        orientation: "bottom",
+        language: "es"
+    });
+    /*Select 2 init*/
+    /* Submit validation, antes de ejecutar la funcion de guardado ajaxSave() */
+     $('#formSecRole').submit(function(event){
+        var formulario =  $('#formSecRole');
+
+        var validacionBootstrapCorrecta = formulario[0].checkValidity();
+        var validacionManualCorrecta = Validador.validarFormulario(formulario);
+        if (!(validacionBootstrapCorrecta && validacionManualCorrecta)) {
+            // cancels the form submission
+            event.preventDefault();
+            event.stopPropagation();
+        }         
+        formulario.addClass('was-validated');
+    });
+
+    /*Cancel or return button*/
+    $('#cancel').on('click', function () {
+        history.go(-1);
+    } );
+    </script>
+</section>
+</body>
+</html>

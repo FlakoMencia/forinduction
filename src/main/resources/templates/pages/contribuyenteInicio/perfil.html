@@ -1,0 +1,162 @@
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>Perfil</title>
+    <th:block th:insert="fragments/custom/style"/>
+    <th:block th:insert="fragments/salert/style"/>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container-fluid">
+        <div class="main">
+            <div class="header">
+                <h1 class="header-title">
+                    Perfil
+                </h1>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div id="userNOencontradoDiv" class="row text-md-center" hidden="true">
+                        <div class="row" style="font-weight: bolder">
+                            <label class="text-danger">¡¡Perfil NO encontrado!! </label>
+                        </div>
+                        <div class="row " style="font-weight: bolder">
+                            <label class="text-danger">(Favor reinicie sesión) </label>
+                            <br/>
+                        </div>
+                    </div>
+                    <div id="userEncontradoDiv" class="row ">
+                        <div class="col-xl-9 col-xxl-9">
+                            <div class="row ">
+                                <div class="strong vertical col-sm-2">
+                                    <label th:hidden="*{ccPersona.cdTipoPersona eq 'J'}"> Nombre Contribuyente: </label>
+                                    <label th:hidden="*{ccPersona.cdTipoPersona eq 'N'}"> Razón Social: </label>
+                                </div>
+                                <div class="col-sm-7 ">
+                                    <input class="form-control form-control-lite"
+                                           th:field="*{ccPersona.stNombre}"
+                                           type="text" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-sm-2 ">
+                                    <label class="bold">NIT: </label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input class="form-control form-control-line"
+                                           th:field="*{ccPersona.cdNit}"
+                                           type="text" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-2 ">
+                                    <label class="bold">Código de Cuenta Corriente: </label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input class="form-control form-control-lite"
+                                           th:field="*{ccPersona.cdCcc}"
+                                           type="text" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="bold">Correo Electrónico: </label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input class="form-control form-control-lite"
+                                           th:field="*{ccPersona.secUser.cdUser}"
+                                           type="text" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="bold">Empresas Registradas: </label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input class="form-control form-control-lite" type="text" readonly="readonly"
+                                           value="0"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="infoDiv" class="row justify-content-md-start">
+            <div class="border border-secondary rounded w-75 ">
+                <br/>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <p class="text-md-center" style="font-weight:bolder">¿Desea Cambiar algun dato?</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <a class="btn btn-primary"
+                           th:href="@{../../docs/users/SOLICITUD_CAMBIO_DE_CORREO_ELECTRONICO.pdf}"
+                           download="SOLICITUD_CAMBIO_DE_CORREO_ELECTRONICO.pdf"
+                           style="float: right">Descargar Formulario</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <p class="text-md-center">
+                            1. De Clic en el botón Descargar formulario, imprima y llene el
+                            formulario, indicando los datos que desea modificar.
+                        </p>
+                    </div>
+                    <br/>
+                    <div class="col-lg-9">
+                        <p class="text-md-center">
+                            2. Acérquese a las oficinas de la alcaldía para realizar cualquier
+                            cambio.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="col-sm-6 ">
+                <a class="btn btn-danger waves-effect waves-light " th:href="@{/user/index}">
+                    Regresar
+                </a>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+<section layout:fragment="js" th:remove="tag">
+    <script>
+        var ccPersona = "[[${ccPersona}]]";
+        var skPersona = "[[${ccPersona.skPersona}]]";
+
+        function deshabilitarPerfilPanel() {
+            if (ccPersona == null || ccPersona == undefined || ccPersona == ''||
+                skPersona == null || skPersona == undefined || skPersona == '') {
+                $("#userNOencontradoDiv").attr("hidden", false);
+                $("#userEncontradoDiv").attr("hidden", "true");
+                $("#infoDiv").attr("hidden", "true");
+            }
+        }
+
+        (function () {
+            deshabilitarPerfilPanel();
+        })();
+    </script>
+
+</section>
+
+</body>
+</html>

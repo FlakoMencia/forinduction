@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+    <th:block th:insert="~{fragments/public/basic-metadata}"/>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE" th:text="#{application.name}"></title>
+    <th:block th:insert="~{fragments/basic-linkcss}"/>
+    <!--<link th:href="@{/css/app.public.css}" rel="stylesheet"/>-->
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Portal </p>
+        </div>
+    </div>
+    <div id="main-wrapper">
+        <aside class="left-sidebar" style="padding-top: 0px;">
+            <nav class="sidebar-nav">
+                <div class="scroll-sidebar" style="margin-top: 20px;">
+                    <div class="text-center">
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        <div class="page-wrapper">
+            <main layout:fragment="content" class="content">
+
+            </main>
+        </div>
+    </div>
+<th:block th:insert="~{fragments/public/basic-js}"/>
+
+<th:block layout:fragment="js"/>
+</body>
+
+</html>

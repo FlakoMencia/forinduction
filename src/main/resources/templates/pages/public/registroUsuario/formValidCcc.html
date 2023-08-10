@@ -1,0 +1,146 @@
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TODO supply a title</title>
+</head>
+<body>
+<div th:fragment="modal-valid-ccc">
+    <div id="dialogValidCcc" class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none; ">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Datos del contribuyente</h4>
+                </div>
+                <div class="modal-body border m-3">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="form-group row">
+                                <label for="idCcc" class="col-sm-12 control-label col-form-label">C&oacute;digo de
+                                    Cuenta Corriente(CCC):</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idCcc" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row" th:if="${ccPersona.cdTipoPersona == 'J'}">
+                                <label for="idRazonSocial" class="col-sm-12 control-label col-form-label">Raz&oacute;n
+                                    Social:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idRazonSocial" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row" th:if="${ccPersona.cdTipoPersona == 'J'}">
+                                <label for="idNombre" class="col-sm-12 control-label col-form-label">Nombre del
+                                    Representante Legal:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idNombre" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row" th:if="${ccPersona.cdTipoPersona == 'J'}">
+                                <label for="idNitRepresentante" id="idTxtNitRepresentante"
+                                       class="col-sm-12 control-label col-form-label"></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idNitRepresentante" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row" th:if="${ccPersona.cdTipoPersona == 'J'}">
+                                <label for="idNrc" class="col-sm-12 control-label col-form-label">NRC:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idNrc" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row" th:if="${ccPersona.cdTipoPersona == 'N'}">
+                                <label for="idNombres" class="col-sm-12 control-label col-form-label">Nombres del
+                                    Propietario:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idNombres" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row" th:if="${ccPersona.cdTipoPersona == 'N'}">
+                                <label for="idApellidos" class="col-sm-12 control-label col-form-label">Apellidos del
+                                    Propietario:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idApellidos" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row d-none" id="display-idDui"
+                                 th:if="${ccPersona.cdTipoPersona == 'N'}">
+                                <label for="idDui" class="col-sm-12 control-label col-form-label">DUI:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idDui" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row d-none" id="display-idPasaporte"
+                                 th:if="${ccPersona.cdTipoPersona == 'N'}">
+                                <label for="idPasaporte"
+                                       class="col-sm-12 control-label col-form-label">Pasaporte:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idPasaporte" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row" th:if="${ccPersona.cdTipoPersona == 'N'}">
+                                <label for="idNit" class="col-sm-12 control-label col-form-label">NIT:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idNit" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="idDireccionCobro" class="col-sm-12 control-label col-form-label">Direcci&oacute;n
+                                    de Cobro:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idDireccionCobro" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="idEmpresasReg" class="col-sm-12 control-label col-form-label">Empresas
+                                    Registradas:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="idEmpresasReg" disabled>
+                                </div>
+                            </div>
+                            <input type="hidden" class="form-control" id="skWs">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3">
+                    <div class="form-group row mb-3">
+                        <label class="col-sm-12 control-label col-form-label text-center">¿Los datos en la secci&oacute;n de Datos
+                            del contribuyente son correctos?</label>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="form-check float-end w-45">
+                                    <input type="radio" class="form-check-input" name="datosCorrectos" value="S"
+                                           id="idSi" checked/>
+                                    <label class="form-check-label text-black" for="idSi">Si</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check float-left w-45">
+                                    <input type="radio" class="form-check-input" name="datosCorrectos" value="N"
+                                           id="idNo"/>
+                                    <label class="form-check-label text-black" for="idNo">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-5">&nbsp;</div>
+                        <div class="col col-2">
+                            <button type="button" class="btn btn-info waves-effect waves-light w-100"
+                                    onclick="validar('formRegUser');">Validar
+                            </button>
+                        </div>
+                        <div class="col col-5">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div th:fragment="script-valid-ccc">
+    <script th:inline="javascript">
+        const urlHome = /*[[@{/public/index}]]*/"";
+    </script>
+</div>
+</body>
+</html>
+

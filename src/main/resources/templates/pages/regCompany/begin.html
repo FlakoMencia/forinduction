@@ -1,0 +1,203 @@
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>Registro Inicio</title>
+    <th:block th:insert="fragments/custom/style"/>
+    <th:block th:insert="fragments/salert/style"/>
+</head>
+
+<body>
+<section layout:fragment="content" th:remove="tag">
+    <div class="container-fluid">
+        <div class="header">
+            <h1 class="header-title">
+                Registro de Empresa
+            </h1>
+        </div>
+
+        <h2 class="header-title">
+            <p class="step1" th:text="#{msg.firstStep}"></p>
+            <p class="step2" th:text="#{msg.secondStep}" hidden="hidden"></p>
+            <p class="step3" th:text="#{msg.thirdStep}" hidden="hidden"></p>
+        </h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body ">
+                        <div class="card-subtitle mb-3 border-bottom pb-3">
+                            Registro de Empresa
+                        </div>
+                        <div class="row ps-5">
+                            <div class="step2" hidden="hidden">
+                                <p style="font-weight: bold">Debe tener a la mano la siguiente documentación antes de
+                                    continuar: </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row" id="rowTitlePN">
+                                    <div class="col-4 d-grid align-items-center text-md-center  ">
+                                        <h5 style="font-weight:bold">Persona Natural</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <img th:src="@{/images/persona-natural.png}" alt="Persona Natural"
+                                             width="80" height="80"/>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-6 ps-4 text-md-justify step1">
+                                        <p>Es aquella que actúa a título personal con su nombre </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8 ps-4 text-md-justify step2 " hidden="hidden">
+                                        <ul>
+                                            <li>Lista y copias de DOCS</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8 ps-4 text-md-justify step2 " hidden="hidden">
+                                        <h6>Descargar Requisitos</h6>
+                                    </div>
+                                    <div class="col-sm-8 ps-4 text-md-justify step2" hidden="hidden">
+                                        <a class="btn btn-primary"
+                                           th:href="@{../../docs/users/REQUISITOS_PARA_LA_INSCRIPCION_DE_EMPRESAS-PN.pdf}"
+                                           download="REQUISITOS_PARA_LA_INSCRIPCION_DE_EMPRESAS-PN.pdf"
+                                        >Requisitos</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row" id="rowTitlePJ" >
+                                    <div class="col-4 d-grid align-items-center text-md-center  ">
+                                        <h5 style="font-weight:bold">Persona Jurídica</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <img th:src="@{/images/persona-juridica.png}" alt="Persona Natural"
+                                             width="80" height="80"/>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-6 text-md-justify step1">
+                                        <p>Es una Entidad que está formada por dos o más individuos o personas jurídicas
+                                            y actúa a través de sus representantes legales. </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8 ps-4 text-md-justify step2 " hidden="hidden">
+                                        <ul>
+                                            <li>LISTA DE Docs</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8 ps-4 text-md-justify step2 " hidden="hidden">
+                                        <h6>Descargar Requisitos</h6>
+                                    </div>
+                                    <div class="col-sm-8 ps-4 text-md-justify step2" hidden="hidden">
+                                        <a class="btn btn-primary"
+                                           th:href="@{../../docs/users/REQUISITOS_PARA_LA_INSCRIPCION_DE_EMPRESAS-PJ.pdf}"
+                                           download="REQUISITOS_PARA_LA_INSCRIPCION_DE_EMPRESAS-PJ.pdf"
+                                        >Requisitos</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row ps-5 step1">
+                            <div class="row">
+                                <div class="col-6 d-grid align-items-center ps-4  step1">
+                                    <h5 style="font-weight:bold">Su usuario está registrado como:</h5>
+                                </div>
+                                <div class="col-6 d-grid align-items-center ps-3  step1">
+                                    <h5> Persona [[${tipoPersona}]]</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row step2" hidden="hidden">
+                            <div class="col-sm-1 step2" style="text-align: right">
+                                <i class="fas fa-exclamation-circle fa-3x icon-color">
+                                </i>
+                            </div>
+                            <div class="col-9  align-items-center step2">
+                                <h5 style="font-weight:bold" class="text-md-center">
+                                    LA FALTA DE UNO DE LOS DOCUMENTOS REQUERIDOS O DE ALGÚN PERSMISO IMPEDIRÁ COMPLETAR
+                                    LA INSCRIPCIÓN SATISFACTORIAMENTE
+                                </h5>
+                                <h5 class="text-md-center">
+                                    Si tiene dudas con alguno de los requerimientos por favor comunicarse
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center step3" hidden="hidden">
+                            <div class="col-sm-7 border border-secondary pt-md-3 ps-md-3 pb-md-3 pe-md-3 ">
+                                <p>*Declaro que soy usuario autorizado para acceder a sus registros*</p>
+                                </div>
+                            <br>
+                            <br>
+                        </div>
+                        <form id="aceptTermsForm" enctype="multipart/form-data" th:action="@{../reg/company/postdata}" method="POST">
+                            <div class="row justify-content-md-end step3 " hidden="hidden">
+                                <div class="col-sm-5">
+                                    <br>
+                                    <br>
+                                    <input th:hidden="true" id="aceptedTermsInput" >
+                                    <input type="checkbox" th:id="chkboxTerminosYcond" th:name="chkboxTerminosYcond" onclick="checkTermsOnSol()">
+                                    <label th:for="chkboxTerminosYcond">Acepto Términos y Condiciones</label>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container ">
+            <div class="row justify-content-center">
+                <div class="col-sm-4 ps-5 ">
+                    <a class="btn btn-danger waves-effect waves-light " onclick="cancelSteps()">
+                        Cancelar
+                    </a>
+                </div>
+                <div class="col-sm-8 text-md-end ">
+                    <a id="backStep" class="btn btn-warning waves-effect waves-light w-10  " onclick="backward()"
+                       hidden="hidden">
+                        Atras
+                    </a> <span> </span>
+                    <button id="fwdStep" class="btn btn-info waves-effect waves-light " onclick="nextStep()" >
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section layout:fragment="js" th:remove="tag">
+    <th:block th:insert="fragments/salert/scripts"/>
+    <script th:src="@{/js/pages/firstStepsCompanyReg.js}"></script>
+    <script type="text/javascript">
+        var nav = "[[${nav}]]";
+        var acepted = "[[${aceptoTerminos}]]";
+        $(document).ready(function () {
+            $("#aceptedTermsInput").val(acepted);
+            if (nav != 'undefined' && nav == 'back') {
+                step = 3;
+                changeStep(step);
+            }
+            if (acepted && acepted == 1) {
+                $("#chkboxTerminosYcond").attr("checked", true);
+                $("#fwdStep").removeAttr("disabled");
+            }
+        });
+    </script>
+
+</section>
+
+</body>
+</html>

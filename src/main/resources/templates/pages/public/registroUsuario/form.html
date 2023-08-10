@@ -1,0 +1,256 @@
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/unwrap-layout}">
+    <head>
+        <title>Registro Usuario</title>
+    </head>
+    <body>
+        <section layout:fragment="content" th:remove="tag">
+            <div class="container-fluid w-100">
+                <div class="row">
+                    <div class="col col-12 col-md-8 mx-auto">
+                        <div class="card">
+                            <form id="formRegUser" class="needs-validation needs-validation-manual form-horizontal" novalidate th:action="@{/public/regUser/save}" th:object="${ccPersona}" method="POST">
+                                <div class="card-body">
+                                    <th:block th:insert="~{fragments/service-response-painter(visual=true, severe=true, title='Informacion adicional del guardado...')}" th:remove="tag"/>
+                                    <div class="row mt-1 ms-3">
+                                        <div class="col">
+                                            <label class="text-black">Paso N° 3</label>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1 mb-4 ms-3">
+                                        <div class="col">
+                                            <label class="text-info">Registro de Usuario</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-lg-12">
+                                            <fieldset class="border-1-secundary fieldset-control">
+                                                <div class="form-group row mb-3">
+                                                    <label for="cdUserDelegate" class="col-sm-12 control-label col-form-label" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="Ingrese una dirección de correo electrónico válido para recibir notificaciones referentes a la empresa o negocio, por ejemplo: <a>contribuyente@gmail.com</a>.">Correo electr&oacute;nico del contribuyente para recibir notificaciones:<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control emails" id="cdUserDelegate"
+                                                               th:field="*{secUser.cdUser}" placeholder="Correo electrónico"
+                                                               maxlength="150" required>
+                                                        <span id="cdUserDelegateError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                        <span id="cdUserDelegateError3" class="error-form w-100 float-start cdUserDelegate-error-format" style="color: red; display: none">El correo electrónico debe contener el formato correcto</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3" th:if="*{cdTipoPersona == 'J'}">
+                                                    <label for="stRazonSocial" class="col-sm-12 control-label col-form-label" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="Ingrese el nombre con el que se encuentra registrada legalmente la empresa o negocio.">Raz&oacute;n Social:<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control" id="stRazonSocial"
+                                                               th:field="*{stRazonSocial}" placeholder="Razón Social"
+                                                               maxlength="150" required>
+                                                        <span id="stRazonSocialError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3" th:if="*{cdTipoPersona == 'J'}">
+                                                    <label for="cdNitJuridico" class="col-sm-12 control-label col-form-label" data-bs-custom-class="large-tooltip" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="<div>Ingrese Número de Identificaci&oacute;n Tributaria de la empresa o negocio</div><img src='../../images/nit_empresa.png' th:src='@{/images/nit_empresa.png}' width='350' height='200'/>">N&uacute;mero de Identificaci&oacute;n Tributaria (NIT) de la Empresa:<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control nit" id="cdNitJuridico"
+                                                               th:field="*{cdNitJuridico}" placeholder="NIT de la Empresa"
+                                                               maxlength="14" required>
+                                                        <span id="cdNitJuridicoError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                        <span id="cdNitJuridicoError2" class="error-form w-100 float-start cdNitJuridico-error-length" style="color: red; display: none">Debe tener 14 caracteres</span>
+                                                        <span id="cdNitJuridicoError3" class="error-form w-100 float-start cdNitJuridico-error-format" style="color: red; display: none">Debe tener un formato correcto</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label class="col-sm-12 control-label col-form-label">¿Posee C&oacute;digo de Cuenta Corriente(CCC)?<b class="text-danger">*</b></label>
+                                                    <div class="row mt-2">
+                                                        <div class="col col-2">
+                                                            <div class="form-check float-end w-45">
+                                                                <input type="radio" class="form-check-input" name="poseeCCC" value="S" id="idCodSi" onclick="fnEnableRequiredCcc(true);"/>
+                                                                <label class="form-check-label text-black" for="idCodSi">Si</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col col-2">
+                                                            <div class="form-check float-end w-45">
+                                                                <input type="radio" class="form-check-input" name="poseeCCC" value="N" id="idCodNo" onclick="fnEnableRequiredCcc(false);" checked/>
+                                                                <label class="form-check-label text-black" for="idCodNo">No</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="cdCcc" id="cdCccLabel" class="col-sm-12 control-label col-form-label" data-bs-custom-class="large-tooltip" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="<div>Ingrese N&uacute;mero de Cuenta Corriente</div><img src='../../images/ccc.png' th:src='@{/images/ccc.png}' width='350' height='200'/>">N&uacute;mero de Cuenta Corriente</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control ccc" id="cdCcc"
+                                                               th:field="*{cdCcc}" placeholder="Número de Cuenta Corriente"
+                                                               maxlength="10" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="stPasswordDelegate" class="col-sm-12 control-label col-form-label" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="Ingrese una contrase&ntilde;a que contenga entre 8 y 12 caracteres, debe contener may&uacute;sculas, n&uacute;meros y caracteres especiales.">Contrase&ntilde;a<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="password" class="form-control" id="stPasswordDelegate"
+                                                               th:field="*{secUser.stPassword}" placeholder="Contraseña"
+                                                               maxlength="100" required>
+                                                        <span id="stPasswordDelegateError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                        <span id="stPasswordDelegateError2" class="error-form w-100 float-start" style="color: red; display: none;">¡Debe contener al menos una letra may&uacute;scula, un n&uacute;mero y un car&aacute;cter especial (! " # $ % &  ? @) !</span>
+                                                        <span id="stPasswordDelegateError3" class="error-form w-100 float-start" style="color: red; display: none">La contrase&ntilde;a debe tener un m&iacute;nimo de 8 y 12 caracteres</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="stPasswordDelegate2" class="col-sm-12 control-label col-form-label"  data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="Confirme contrase&ntilde;a. Esta debe coincidir con la contrase&ntilde;a ingresada anteriormente.">Confirmar Contrase&ntilde;a<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="password" class="form-control" id="passwordConfirm"
+                                                               th:field="*{passwordConfirm}" placeholder="Confirmar Contraseña"
+                                                               maxlength="100" required>
+                                                        <span id="passwordConfirmError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                        <span id="passwordConfirmError2" class="error-form w-100 float-start" style="color: red; display: none;">Las contrase&ntilde;a ingresadas no coinciden. Intente nuevamente</span>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <br/>
+                                            <fieldset class="border-1-secundary fieldset-control">
+                                                <div class="form-group row mb-3" th:if="*{cdTipoPersona == 'J'}">
+                                                    <label class="col-sm-12 control-label col-form-label">¿Act&uacute;a en calidad de?<b class="text-danger">*</b></label>
+                                                    <div class="row mt-2">
+                                                        <div class="col col-1">&nbsp;</div>
+                                                        <div class="col col-4">
+                                                            <div class="form-check float-left w-100">
+                                                                <input type="radio" class="form-check-input" th:name="cdTipoRepresentante" th:value="R" id="idRepresentante" onclick="selectRepresentanteLegal();" checked/>
+                                                                <label class="form-check-label text-black" for="idRepresentante">Representante Legal</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col col-4">
+                                                            <div class="form-check float-left w-100">
+                                                                <input type="radio" class="form-check-input" th:name="cdTipoRepresentante" th:value="A" id="idApoderado" onclick="fnEnableRequiredDocument(false);selectApoderadoLegal();"/>
+                                                                <label class="form-check-label text-black" for="idApoderado">Apoderado Legal</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label class="col-sm-12 control-label col-form-label">¿Es usted extranjero/a?<b class="text-danger">*</b></label>
+                                                    <div class="row mt-2">
+                                                        <div class="col col-2">
+                                                            <div class="form-check float-end w-45">
+                                                                <input type="radio" class="form-check-input" th:name="cdTipoDocumento" th:value="PAS" id="idExtranjeroSi" onclick="fnEnableRequiredDocument(true);"/>
+                                                                <label class="form-check-label text-black" for="idExtranjeroSi">Si</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col col-2">
+                                                            <div class="form-check float-end w-45">
+                                                                <input type="radio" class="form-check-input" th:name="cdTipoDocumento" th:value="DUI" id="idExtranjeroNo" onclick="fnEnableRequiredDocument(false);" />
+                                                                <label class="form-check-label text-black" for="idExtranjeroNo">No</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="cdDui" id="cdDuiLabel" class="col-sm-12 control-label col-form-label" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="Ingrese número de Documento Único de Identidad. Sin guiones.">Documento &Uacute;nico de Identidad (DUI):<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control dui" id="cdDui"
+                                                               th:field="*{cdDui}" placeholder="Documento Único de Identidad"
+                                                               maxlength="9" disabled >
+                                                        <span id="cdDuiError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                        <span id="cdDuiError2" class="error-form w-100 float-start cdDui-error-length" style="color: red; display: none">Debe tener 9 caracteres</span>
+                                                        <span id="cdDuiError3" class="error-form w-100 float-start cdDui-error-format" style="color: red; display: none">Debe tener un formato correcto</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="cdPasaporte" id="cdPasaporteLabel" class="col-sm-12 control-label col-form-label"data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="Ingrese número de Pasaporte. Sin guiones.">N&uacute;mero de Pasaporte:</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control pasaporte" id="cdPasaporte"
+                                                               th:field="*{cdPasaporte}" placeholder="Número de Pasaporte"
+                                                               maxlength="20" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="stNombre" class="col-sm-12 control-label col-form-label" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="Ingrese el nombre completo según documento único de identidad.">Nombre del Contribuyente seg&uacute;n Documento de Identidad:<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control" id="stNombre"
+                                                               th:field="*{stNombre}" placeholder="Nombre del Contribuyente"
+                                                               maxlength="150" required>
+                                                        <span id="stNombreError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3" th:if="*{cdTipoPersona == 'J'}">
+                                                    <label for="cdNit" class="col-sm-12 control-label col-form-label" data-bs-custom-class="large-tooltip" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="<div>Ingrese Número de Identificaci&oacute;n Tributaria de la empresa o negocio</div><img src='../../images/nit_contribuyente.png' th:src='@{/images/nit_contribuyente.png}' width='350' height='200'/>">N&uacute;mero de Identificaci&oacute;n Tributaria (NIT):<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control nit" id="cdNit"
+                                                               th:field="*{cdNit}" placeholder="NIT del Contribuyente"
+                                                               maxlength="14" required>
+                                                        <span id="cdNitError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                        <span id="cdNitError2" class="error-form w-100 float-start cdNit-error-length" style="color: red; display: none">Debe tener 14 caracteres</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3" th:if="*{cdTipoPersona == 'N'}">
+                                                    <label for="cdNit" class="col-sm-12 control-label col-form-label" data-bs-custom-class="large-tooltip" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="right" data-bs-title="<div>Ingrese Número de Identificaci&oacute;n Tributaria de la empresa o negocio</div><img src='../../images/nit_contribuyente.png' th:src='@{/images/nit_contribuyente.png}' width='350' height='200'/>">N&uacute;mero de Identificaci&oacute;n Tributaria (NIT):<b class="text-danger">*</b></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control nit-multiple" id="cdNit"
+                                                               th:field="*{cdNit}" placeholder="NIT del Contribuyente"
+                                                               maxlength="14" required>
+                                                        <span id="cdNitError1" class="error-form w-100 float-start" style="display: none; color: red;">Campo obligatorio</span>
+                                                        <span id="cdNitError2" class="error-form w-100 float-start cdNit-error-length" style="color: red; display: none">Debe tener 9 o 14 caracteres</span>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <div class="form-group row mt-p-5">
+                                                <div class="row">
+                                                    <div class="col col-4">&nbsp;</div>
+                                                    <div class="col col-4">
+                                                        <div class="g-recaptcha" data-callback="habilitarSiguiente" data-expired-callback="deshabilitarSiguiente" th:data-sitekey="${recaptcha2Token}"></div>
+                                                    </div>
+                                                    <div class="col col-4">&nbsp;</div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" th:field="*{cdTipoPersona}" id="idCdTipoPersona">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col col-6">
+                                            <a class="btn btn-danger waves-effect waves-light float-end me-5 w-35" th:href="@{/public/index}">Cancelar</a>
+                                        </div>
+                                        <div class="col col-6">
+                                            <button type="button" id="idBtnSiguiente" class="btn btn-info waves-effect waves-light ms-5 w-35" onclick="registrar('formRegUser');">Registrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="~{pages/public/registroUsuario/formValidCcc :: modal-valid-ccc}"/>
+        </section>
+        <section layout:fragment="js" th:remove="tag">
+            <script src="https://www.google.com/recaptcha/api.js?explicit&hl=es" async defer></script>
+            <script th:inline="javascript">
+                                                function habilitarSiguiente() {
+                                                    $("#idBtnSiguiente").prop("disabled", false);
+                                                }
+
+                                                function deshabilitarSiguiente() {
+                                                    $("#idBtnSiguiente").prop("disabled", true);
+                                                }
+            </script>
+            <script th:inline="javascript">
+                const urlValidarCcc = /*[[@{/public/regUser/validarCcc}]]*/"";
+                function selectRepresentanteLegal(){
+                    $('input[name=cdTipoDocumento]').attr("disabled",false);
+                }
+                function selectApoderadoLegal(){
+                    $('#idExtranjeroNo').prop('checked',true);
+                    $('input[name=cdTipoDocumento]').attr("disabled",true);
+                }
+                $(document).ready(function () {
+                    $("#cdDui").inputmask("999999999");
+                    $(".emails").inputmask("email");
+                    $(".nit").inputmask("99999999999999");
+                    $(".nit-multiple").inputmask({mask: ["999999999", "99999999999999"]});
+                    $("#cdCcc").inputmask("9999999999");
+                    deshabilitarSiguiente();
+                });
+            </script>
+            <script th:src="@{/js/pages/registroUsuario.js}"></script>
+            <th:block th:insert="~{pages/public/registroUsuario/formValidCcc :: script-valid-ccc}"/>
+        </section>
+
+    </body>
+</html>

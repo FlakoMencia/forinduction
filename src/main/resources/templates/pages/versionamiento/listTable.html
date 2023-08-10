@@ -1,0 +1,113 @@
+<!--decorated page-->
+<html lang="en" dir="ltr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/basic-layout}">
+
+<head>
+    <title th:inline="text" th:text="'Versionamiento'"></title>
+</head>
+
+<body>
+<section layout:fragment="breadcrumb" th:remove="tag">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-5 align-self-center">
+                <h4 class="page-title" th:inline="text" th:text="'Versionamiento'"></h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/index}" th:inline="text" th:text="#{label.home}"></a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page" th:inline="text"
+                                th:text="'Versionamiento'"></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section layout:fragment="content" th:remove="tag">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <th:block th:insert="fragments/service-response-painter" th:remove="tag"/>
+                    <h4 class="card-title">Listado de Catálogos Versionados</h4>
+                    <div class="table-responsive">
+                        <table id="tblVersionamiento" class="table table-hover table-bordered" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Acciones</th>
+                                <th>Nombre</th>
+                                <th>Id Tabla</th>
+                                <th>Tabla</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section layout:fragment="js" th:remove="tag">
+    <!-- Required libraries -->
+    <script th:inline="javascript">
+        const dataTablesLangUrl = /*[[@{#{datatables.lang}}]]*/'/assets/extra-libs/datatables.net/English.json';
+
+        // URLs para peticiones
+        const urlListVersionamiento = /*[[@{/versionamiento/list}]]*/"";
+
+    </script>
+    <script>
+        function redirectLog(tabla, idTabla) {
+            document.location.href = '/versionamiento/viewLog?tabla=' + tabla;
+        }
+
+        var table = $('table#tblVersionamiento').DataTable({
+            language: {url: dataTablesLangUrl},
+            ajax: urlListVersionamiento,
+            serverSide: true,
+            orderCellsTop: true,
+            fixedHeader: true,
+            columns: [
+                {
+                    data: 'columnaVersionada',
+                    width: '15%',
+                    render: function (data, type, row, meta) {
+                        return '<div class="row">' +
+                            '<div class="col-lg-4 col-md-4 pr-1">' +
+                            '<button class="btn waves-effect waves-light btn-block btn-sm btn-primary" type="button" onClick= \'redirectLog("' + row.nombre + '"'+')\' id="btnLogTabla"><i class="fa fa-share"></i></button>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                },
+                {
+                    data: 'etiqueta'
+                },
+                {
+                    data: 'idTabla',
+                    visible: false
+                },
+                {
+                    data: 'nombre',
+                    visible: false
+                }
+            ],
+            order: [
+                [
+                    1, 'asc'
+                ]
+            ]
+        });
+
+        renderDatatableFilters("#tblVersionamiento");
+    </script>
+</section>
+</body>
+
+</html>

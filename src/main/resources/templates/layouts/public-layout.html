@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+    <th:block th:insert="~{fragments/basic-metadata}"/>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE" th:text="#{application.name}"></title>
+    <link th:href="@{/css/app.public.css}" rel="stylesheet"/>
+</head>
+
+<body>
+
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Portal </p>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <th:block th:insert="~{fragments/public/header}"/>
+        <div class="page-wrapper">
+            <main layout:fragment="content" class="content">
+
+            </main>
+            <th:block th:insert="~{fragments/public/footer}"/>
+        </div>
+
+    </div>
+
+    <script th:inline="javascript">
+        window.DT_LANG_URL = /*[[@{/json/spanish-datatable.json}]]*/;
+    </script>
+    <script th:src="@{/js/app.public.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <script type="text/javascript">
+        ;
+        (function ($) {
+            'use strict';
+            $(function () {
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+                if (token != "" && header != "") {
+                    $(document).ajaxSend(function (e, xhr, options) {
+                        xhr.setRequestHeader(header, token);
+                    });
+                }
+            });
+        })(jQuery);
+    </script>
+
+<th:block layout:fragment="js"/>
+
+</body>
+
+</html>

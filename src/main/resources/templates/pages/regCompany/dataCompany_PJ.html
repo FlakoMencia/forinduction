@@ -1,0 +1,724 @@
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>Registro Datos</title>
+    <th:block th:insert="fragments/custom/style"/>
+    <th:block th:insert="fragments/salert/style"/>
+    <th:block th:insert="fragments/s2/style"/>
+</head>
+
+<body>
+<section layout:fragment="content" th:remove="tag">
+    <div class="container-fluid">
+        <div class="header">
+            <h1 class="header-title">
+                Datos de Empresa
+            </h1>
+        </div>
+        <h2 class="header-title">
+            <p class="step1" th:text="#{msg.fourStep}"></p>
+            <input th:field="*{sol.skSolicitud}" id="skSolicitud" th:hidden="true">
+            <input th:field="*{dataCompany.skEmpresa}" id="skEmpresa" th:hidden="true">
+        </h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body " style="line-height: 2.8">
+                        <div class="card-subtitle mb-3 border-bottom pb-3">
+                            Datos de la Empresa
+                        </div>
+                        <form enctype="multipart/form-data" id="dataCompanyForm" th:action="@{/}">
+                            <div class="row">
+                                <div class="col-sm-3 ps-5 srRa">
+                                    <p th:for="stRazonSocial">Razón Social: <b class="text-danger">*</b>
+                                    </p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="stRazonSocial" th:field="*{dataCompany.stRazonSocial}"
+                                           class="form-control form-control-lite stNombres" required/>
+                                    <span id="stRazonSocialError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="Ingrese los nombres según documento de identidad."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p th:for="stDireccion">Dirección de Domicilio: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="stDireccion" th:field="*{dataCompany.stDireccion}"
+                                           class="form-control form-control-lite" required/>
+                                    <span id="stDireccionError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="Ingrese y detalle el domicilio donde vive el propietario de la empresa."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>NIT: <b id="astForNit" hidden="hidden" class="text-danger astForExtranjero">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="nit" th:field="*{dataCompany.nit}"
+                                           class="form-control form-control-lite nit"/>
+                                    <span id="nitError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                    <span id="nitError2" class="error-form w-100 float-start nit-error-length"
+                                          style="color: red; display: none">Debe tener 14 caracteres</span>
+                                    <span id="nitError3" class="error-form w-100 float-start nit-error-format"
+                                          style="color: red; display: none">Debe tener un formato correcto</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover"
+                                       data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="<div>Ingrese Número de Identificaci&oacute;n Tributaria. </div> <img src='/images/nit_empresa.png' th:src='@{/images/nit_empresa.png}' width='250' height='150'/>"
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Teléfono: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="row ">
+                                        <div class="col-sm-6">
+                                            <select class="form-select" id="ccTipoTelDelegate">
+                                            </select>
+                                            <span id="phoneListError1" class="error-form w-100 float-start"
+                                                  style="display: none; color: red;">*Campo obligatorio</span>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input id="telinput" class="form-control form-control-lite"/>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a class="fas fa-plus-circle fa-2x opacity-75 ico-hover-plus"
+                                               style="cursor: pointer;" onclick="addTelephoneFunction();"></a>
+                                        </div>
+                                    </div>
+                                    <div id="phoneList" class="row px-2"></div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right"
+                                       data-bs-content="Ingrese uno o varios números de contacto."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Dirección Cobros: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="stDireccionCobros" th:field="*{dataCompany.stDireccionCobros}"
+                                           class="form-control form-control-lite stDireccionCobros" required/>
+                                    <span id="stDireccionCobrosError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right"
+                                       data-bs-content="Es la dirección en la que se reciben las notificaciones de cobro y otras notificaciones administrativas"
+                                    ></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>Correo Electrónico: <b class="text-danger">*</b></p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="stEmail" th:field="*{dataCompany.stEmail}"
+                                           class="form-control form-control-lite email" required/>
+                                    <span id="stEmailError1" class="error-form w-100 float-start"
+                                          style="display: none; color: red;">*Campo obligatorio</span>
+                                    <span id="stEmailError3"
+                                          class="error-form w-100 float-start stEmail-error-format"
+                                          style="color: red; display: none">El correo electrónico debe contener el formato correcto</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                       data-bs-custom-class="large-popover"
+                                       data-bs-content="Ingrese una dirección de correo electrónico válido para recibir notificaciones referentes a la empresa o negocio, por ejemplo:<a>contribuyente@gmail.com</a>."
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 ps-5">
+                                    <p>NRC: </p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input id="nrc" th:field="*{dataCompany.nrc}"
+                                           class="form-control form-control-lite nrc"/>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                       data-bs-toggle="popover" data-bs-placement="right"
+                                       data-bs-content="Ingrese el Número de Registro de Contribuyente, que equivale al número que aparece en la tarjeta de IVA"
+                                       style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--DOCUMENTOS ADJUNTOS -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body " style="line-height: 1.8">
+                        <div class="card-subtitle mb-3 border-bottom pb-3">
+                            Anexar Documentos
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 ps-5">
+                                <p>NIT: <b class="text-danger" >*</b></p>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" id="nit_file_input" readonly class="input-form form-control"
+                                       placeholder="No Archivo Ingresado" onclick="clickOn('nit_file');"
+                                       style="background-color: snow ">
+                                <input type="file" id="nit_file" hidden="hidden" name="attachments"
+                                       accept="application/pdf" required
+                                       class="form-control form-control-lite files"
+                                       style="background-color: snow !important"/>
+                                <p id="files-area_nit_file">
+                                    <span id="filesList_nit_file">
+                                        <span id="files-names_nit_file"></span>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                   data-bs-content="Anexe la copia del Número de Identificación Tributaria del propietario en formato PDF."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                            <div class="col-sm-5">
+                                <a class="btn btn-info" for="nit_file" onclick="clickOn('nit_file');"> Agregar
+                                    Archivo</a>
+                                <span id="nit_fileError1" class="error-form w-100 "
+                                      style="display: none; color: red;">*Archivo obligatorio </span>
+                                <span id="nit_fileError2" class="error-form w-100 "
+                                      style="display: none; color: red;">Formato de Archivo invalido</span>
+                                <span id="nit_fileError3" class="error-form w-100 "
+                                      style="display: none; color: red;">Tamaño de Archivo no permitido</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 ps-5">
+                                <p>Escritura de Constitución: <b class="text-danger">*</b></p>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" id="esc_file_input" readonly class="input-form form-control"
+                                       placeholder="No Archivo Ingresado" onclick="clickOn('esc_file');"
+                                       style="background-color: snow ">
+                                <input type="file" id="esc_file" hidden="hidden" name="attachments"
+                                       accept="application/pdf" required
+                                       class="form-control form-control-lite files"
+                                       style="background-color: snow !important"/>
+                                <p id="files-area_esc_file">
+                                    <span id="filesList_esc_file">
+                                        <span id="files-names_esc_file"></span>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                   data-bs-content="Anexe la copia del número de Documento Único de Identidad del propietario en formato PDF."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                            <div class="col-sm-5">
+                                <a id="esc_btn" class="btn btn-info" for="esc_file" onclick="clickOn('esc_file');">
+                                    Agregar Archivo</a>
+                                <span id="esc_fileError1" class="error-form w-100 "
+                                      style="display: none; color: red;">*Archivo obligatorio</span>
+                                <span id="esc_fileError2" class="error-form w-100 "
+                                      style="display: none; color: red;">Formato de Archivo invalido</span>
+                                <span id="esc_fileError3" class="error-form w-100 "
+                                      style="display: none; color: red;">Tamaño de Archivo no permitido</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 ps-5">
+                                <p>NRC: <b class="text-danger">*</b></p>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" id="nrc_file_input" readonly class="input-form form-control"
+                                       placeholder="No Archivo Ingresado" onclick="clickOn('nrc_file');"
+                                       style="background-color: snow ">
+                                <input type="file" id="nrc_file" hidden="hidden" name="attachments"
+                                       accept="application/pdf" required
+                                       class="form-control form-control-lite files"
+                                       style="background-color: snow !important"/>
+                                <p id="files-area_nrc_file">
+                                    <span id="filesList_nrc_file">
+                                        <span id="files-names_nrc_file"></span>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="fas fa-info-circle fa-2x opacity-75 ico-hover"
+                                   data-bs-toggle="popover" data-bs-placement="right" data-bs-html="true"
+                                   data-bs-content="Anexe la copia de Número de Registro de Contribuyente en formato PDF."
+                                   style="cursor: pointer;"></i>
+                            </div>
+                            <div class="col-sm-5">
+                                <a class="btn btn-info" for="nrc_file" onclick="clickOn('nrc_file');"> Agregar
+                                    Archivo</a>
+                                <span id="nrc_fileError1" class="error-form w-100 "
+                                      style="display: none; color: red;"> *Archivo obligatorio </span>
+                                <span id="nrc_fileError2" class="error-form w-100 "
+                                      style="display: none; color: red;">Formato de Archivo invalido</span>
+                                <span id="nrc_fileError3" class="error-form w-100 "
+                                      style="display: none; color: red;">Tamaño de Archivo no permitido</span>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="nit_file_db_id" type="text" th:field="*{nitDoc.skDocAnexo}" hidden="hidden"/>
+                    <input id="nit_file_db_name" type="text" th:field="*{nitDoc.stNombreDoc}" hidden="hidden"/>
+                    <input id="esc_file_db_id" type="text" th:field="*{escDoc.skDocAnexo}" hidden="hidden"/>
+                    <input id="esc_file_db_name" type="text" th:field="*{escDoc.stNombreDoc}" hidden="hidden"/>
+                    <input id="nrc_file_db_id" type="text" th:field="*{nrcDoc.skDocAnexo}" hidden="hidden"/>
+                    <input id="nrc_file_db_name" type="text" th:field="*{nrcDoc.stNombreDoc}" hidden="hidden"/>
+                </div>
+            </div>
+        </div>
+
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 ps-5 ">
+                <a class="btn btn-danger waves-effect waves-light " onclick="cancelSolicitud()">
+                    Cancelar
+                </a>
+            </div>
+            <div class="col-sm-8 text-md-end ">
+                <a id="backStepSol" class="btn btn-warning waves-effect waves-light w-10  " onclick="backwardSol()">
+                    Atras
+                </a> <span> </span>
+                <button id="fwdStepSol" class="btn btn-info waves-effect waves-light " onclick="nextStepSol()">
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<!--</th:block>-->
+
+<section layout:fragment="js" th:remove="tag">
+    <th:block th:insert="fragments/salert/scripts"/>
+    <th:block th:insert="fragments/s2/scripts"/>
+    <th:block th:insert="fragments/imask/scripts"/>
+    <script type="text/javascript">
+        var skSolicitud = $("#skSolicitud").val();
+        var skEmpresa = $("#skEmpresa").val();
+        var urlTypePhoneSelect = '[[@{/user/reg/cboTypePhoneFilterS2}]]';
+        var forAttachments = document.getElementsByName("attachments");
+        var telephonesReg = '[[${telefonosTitular}]]';
+        var telephoneCounter = 0;
+        TypePhoneSelector('#ccTipoTelDelegate', urlTypePhoneSelect, 1);
+        recibirTelefonos(telephonesReg);
+        for (var i = 0; i < forAttachments.length; i++) {
+            forAttachments[i].addEventListener('change', function () {
+                if (this) {
+                    showAttachmentName(this, 0);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#stEmail").inputmask("email");
+            $("#nit").inputmask("99999999999999");
+            $("#nrc").inputmask({mask: ["999999999", "99999999999999"]}); //confirmar
+            $("#telinput").inputmask("9999-9999");
+            incorporarFiles();
+
+        });
+
+
+        function TypePhoneSelector(selector, urlsegment, rows) {
+            $(selector)
+                .wrap('<div style="position:relative"></div>')
+                .select2({
+                    placeholder: 'Seleccionar Tipo de Telefono',
+                    language: "es", // dropdownParent: $(selector).parent(),
+                    width: '100%', minimumInputLength: 0, once: true, ajax: {
+                        url: urlsegment, dataicon: 'json', data: function (params) {
+                            return {
+                                q: params.term, // search term
+                                page: 1, rows: rows
+                            };
+                        }, cache: true
+                    }
+                });
+        }
+
+        function cancelSolicitud() {
+            Swal.fire({
+                title: '<strong>¿Desea Salir?</strong>', icon: 'info',
+                text: 'De hacerlo, perderá todos los datos que ha ingresado.', showCloseButton: true,
+                showCancelButton: true, focusCancel: true, cancelButtonText: 'No', confirmButtonText: 'Si',
+                reverseButtons: true
+                //  ,cancelButtonColor: '#d33' //confirmar si desean color rojo en este boton
+            }).then(function (result) {
+                if (result.value === true) {
+                    $.ajax({  // se usa este ajax ya que el del archivo 04 - ajaxFormUtils.js no muestra el loading
+                        data: {
+                            skSolicitud: skSolicitud
+                        }, url: '../cancelRqst', type: 'POST', success: function (result) {
+                            if (result.success === true) {
+                                window.location.href = '../../../index';
+                            } else {
+                                Swal.fire({
+                                    title: "Error!", text: "Error eliminando solicitud..." + result.message,
+                                    icon: 'error'
+                                });
+                            }
+                        },
+                    });
+                }
+            });
+        }
+
+        function nextStepSol() {
+            let filesElements = document.getElementsByClassName('files');
+            if (validRequiredForm('dataCompanyForm') && validatorFiles(filesElements)) {
+                var stRazonSocial = $("#stRazonSocial").val();
+                var stDireccion = $("#stDireccion").val();
+                var nit = $("#nit").val();
+                var nrc = $("#nrc").val();
+                var stEmail = $("#stEmail").val();
+                var stDireccionCobros = $("#stDireccionCobros").val();
+                let esc_file = document.querySelector('#esc_file').files[0];
+                let nit_file = document.querySelector('#nit_file').files[0];
+                let nrc_file = document.querySelector('#nrc_file').files[0];
+                let data = new FormData();
+                data.append('skSolicitud', skSolicitud);
+                data.append('skEmpresa', skEmpresa);
+                data.append('stRazonSocial', stRazonSocial);
+                data.append('stDireccion', stDireccion);
+                data.append('nit', nit);
+                data.append('nrc', nrc);
+                data.append('stEmail', stEmail);
+                data.append('stDireccionCobros', stDireccionCobros);
+                data.append('escFile', esc_file);
+                data.append('nitFile', nit_file);
+                data.append('nrcFile', nrc_file);
+                $.ajax({
+                    data: data,
+                    url: '../saveDataPJ',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        if (result.success === true) {
+                            window.location.href = '../rqstPJ2/' + skEmpresa;
+                        } else {
+                            Swal.fire({
+                                title: "Error!", text: "Error ingresando sus datos..." + result.message, icon: 'error'
+                            });
+                        }
+                    }, error: function (x, e, thrownError) {
+                        Swal.fire({title: "¡Error!", text: "Error interno del servidor.", icon: 'error'});
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "¡Información Incompleta!", text: "Favor completar todos los campos marcados con * , para poder continuar", icon: 'warning'
+                });
+            }
+        }
+
+        let validatorFiles = (elementsFile) => {
+            let cErrors = 0;
+            let allowed_mime_types = ['application/pdf'];
+            let allowed_size_mb = 2;
+            for (var i = 0; i < elementsFile.length; i++) {
+                if ((elementsFile[i].required)) {
+                    if ((!elementsFile[i].files[0])) {
+                        $("#" + elementsFile[i].id + "Error1").show();
+                        cErrors++;
+                    } else if (allowed_mime_types.indexOf(elementsFile[i].files[0].type) == -1) {
+                        $("#" + elementsFile[i].id + "Error2").show();
+                        cErrors++;
+                    } else if (elementsFile[i].files[0].size > allowed_size_mb * 1024 * 1024) {
+                        $("#" + elementsFile[i].id + "Error3").show();
+                        cErrors++;
+                    }
+                }
+            }
+            return (cErrors === 0);
+        };
+
+        let validRequiredForm = (idForm) => {
+            $("." + "error-form").hide();
+            let inputs = document.getElementById(idForm).elements;
+            let cErrors = 0;
+            let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            let regexNum = /[0-9]/;
+            Array.from(inputs).forEach(function (elemento) {
+                if (elemento.nodeName.toLowerCase() === "input" || elemento.nodeName.toLowerCase() === "select") {
+                    if ((elemento.required) && (!elemento.value)) {
+                        $("#" + elemento.id + "Error1").show();
+                        cErrors++;
+                    } else if ((elemento.classList.contains("email")) && (!regexEmail.test(elemento.value))) {
+                        $("." + elemento.id + "-error-format").show();
+                        cErrors++;
+                    } else if ((elemento.classList.contains("nit")) && (elemento.required)) {
+                        if (elemento.value.replaceAll("_", "").length !== 14) {
+                            $("." + elemento.id + "-error-length").show();
+                            cErrors++;
+                        } else if (!regexNum.test(elemento.value)) {
+                            $("." + elemento.id + "-error-format").show();
+                            cErrors++;
+                        }
+                    }else if ((elemento.classList.contains("pasaporte")) && (elemento.required)) {
+                        if (elemento.value.replaceAll("_", "").length < 6) {
+                            $("." + elemento.id + "-error-length").show();
+                            cErrors++;
+                        } else if (!regexNum.test(elemento.value)) {
+                            $("." + elemento.id + "-error-format").show();
+                            cErrors++;
+                        }
+                    }
+                }
+            });
+            if (telephoneCounter < 1) {
+                $("#phoneListError1").show();
+                cErrors++;
+            }
+            return (cErrors === 0);
+        };
+
+        function addTelephoneFunction() {
+            var newtel = $("#telinput").val();
+            var tipoTel = $("#ccTipoTelDelegate").val();
+            $("#phoneListError1").hide();
+            if (!tipoTel) {
+                Swal.fire({
+                    title: "¡Seleccione Tipo de Teléfono!", text: "Favor elija tipo de teléfono", icon: 'warning'
+                });
+                return false;
+            }
+            if (newtel.replaceAll("_", "").length < 9) {
+                Swal.fire({title: "¡Teléfono Inválido!", text: "Favor ingrese un número telefonico", icon: 'warning'});
+                return false;
+            }
+            if (telephoneCounter >= 5) {
+                Swal.fire({title: "¡Demasiados!", text: "Cantidad máxima de teléfonos alcanzada!", icon: 'info'});
+                return false;
+            }
+            $.ajax({
+                data: {
+                    skEmpresa: skEmpresa, tipoTel: tipoTel, newtel: newtel,
+                }, url: '../company/saveTelephoneTitular', type: 'POST', success: function (result) {
+                    if (result.success === true) {
+                        telephoneCounter++;
+                        addPhoneToDisplayList(newtel);
+                    } else {
+                        Swal.fire({
+                            title: "Error!", text: "Error ingresando número..." + result.message, icon: 'error'
+                        });
+                    }
+                }, error: function (x, e, thrownError) {
+                    Swal.fire({title: "¡Error!", text: "Error interno del servidor.", icon: 'error'});
+                }
+            });
+            $("#telinput").val("");
+        };
+
+        function addPhoneToDisplayList(phone) {
+            var telForId = phone.replace("-", "");
+            var phoneListElement = document.getElementById("phoneList");
+            var li = document.createElement("li");
+            li.setAttribute('id', telForId);
+            li.setAttribute('class', "col-sm-2 px-0");
+            li.appendChild(document.createTextNode(phone));
+            var ico = document.createElement("i");
+            ico.setAttribute('id', "delet" + telForId);
+            ico.setAttribute('class', "fas fa-trash-alt fa-1x opacity-75 ico-hover");
+            ico.setAttribute('style', "cursor: pointer;");
+            ico.setAttribute('onclick', "removePhoneForList(" + telForId + ")");
+            li.appendChild(ico);
+            phoneListElement.appendChild(li);
+        }
+
+        function recibirTelefonos(listado) {
+            if (listado && listado.length > 3) {
+                var listadoLimpio = listado.replace("[", "");
+                listadoLimpio = listadoLimpio.replace("]", "");
+                listadoLimpio = listadoLimpio.replace(" ", "");
+                var listadoSplit = listadoLimpio.split(",");
+                for (let i = 0; i < listadoSplit.length; i++) {
+                    addPhoneToDisplayList(listadoSplit[i]);
+                    telephoneCounter++;
+                }
+            }
+        }
+
+        function removePhoneForList(idElement) {
+            $.ajax({
+                data: {
+                    skEmpresa: skEmpresa, phone: idElement, tipoTitular: 'PROPIETARIO'
+                }, url: '../company/removeTelephone', type: 'POST', success: function (result) {
+                    if (result.success === true) {
+                        removeItem(idElement);
+                        telephoneCounter--;
+                        return true;
+                    } else {
+                        Swal.fire({title: "Error!", text: result.message, icon: 'error'});
+                    }
+                }, error: function (x, e, thrownError) {
+                    Swal.fire({title: "¡Error!", text: "Error interno del servidor.", icon: 'error'});
+                }
+            });
+        }
+
+        function removeItem(idElement) {
+            var phoneListElement = document.getElementById("phoneList");
+            var item = document.getElementById(idElement);
+            phoneListElement.removeChild(item);
+        }
+
+        function showAttachmentName(filelement, isFromDB) {
+            $("#" + filelement.id + "_input").hide();
+            $("#" + filelement.id + "_x").parent().remove();
+            for (var i = 0; i < filelement.files.length; i++) {
+                var shortName =  recortarNameForFile(filelement.files.item(i).name);
+                let fileBloc = $("<span/>", {class: "file-block"});
+                let fileName = $("<span/>", {id: (filelement.id + "_"), class: "name", text: shortName});
+                fileBloc.append('<span id="' + filelement.id + "_x" + '" class="file-delete" onclick="removeFile(' +"'"+ filelement.id +"'"+ ')" ><span>+</span></span>').append(fileName);
+                $("#" + "filesList_" + filelement.id + " > #files-names_" + filelement.id).append(fileBloc);
+            }
+        };
+
+        function removeFile(elementoID) {
+            var skElemento = $("#"+ elementoID + "_db_id").val();
+            if (skElemento) {
+                $.ajax({
+                    data: {skElemento: skElemento},
+                    url: '../company/deleteFileFromSol',
+                    type: 'POST',
+                    success: function (result) {
+                        if (result.success === true) {
+                            $("#" + elementoID + "_x").parent().remove();
+                            $("#" + elementoID + "_input").show();
+                            $("#" + elementoID + "_db_id").val("");
+                            $("#" + elementoID).val("");
+                            esExtranjero(extranjero == 1);
+                            Swal.fire({
+                                title: "Listo!", text: "Documento ha sido eliminado de la Solicitud", icon: 'success'
+                            });
+                            return false;
+                        } else {
+                            Swal.fire({
+                                title: "Error!", text: "Error eliminando documento..." + result.message, icon: 'error'
+                            });
+                            return false;
+                        }
+                    }, error: function (x, e, thrownError) {
+                        Swal.fire({
+                            title: "¡Error-Eliminar!", text: "Error interno del servidor", icon: 'error'
+                        });
+                        return false;
+                    }
+                })
+            }else{ // se tiene que hacer asi por las variables que son actualizadas en el caso de estar persistido
+                $("#" + elementoID + "_x").parent().remove();
+                $("#" + elementoID + "_input").show();
+                $("#" + elementoID + "_db_id").val("");
+                $("#" + elementoID).val("");
+                esExtranjero(extranjero == 1);
+            }
+            return ;
+        };
+
+        function incorporarFiles() {
+            var skEscFromDB = $("#esc_file_db_id").val();
+            var nameEscFileFromDB = $("#esc_file_db_name").val();
+            var skNitFromDB = $("#nit_file_db_id").val();
+            var nameNitFileFromDB = $("#nit_file_db_name").val();
+            var skNrcFromDB = $("#nrc_file_db_id").val();
+            var nameNrciFileFromDB = $("#nrc_file_db_name").val();
+            if(skEscFromDB){
+                var elementFile = "esc_file";
+                mostrarFileElement(elementFile , nameEscFileFromDB);
+            }
+            if(skNitFromDB){
+                var elementFile = "nit_file";
+                mostrarFileElement(elementFile , nameNitFileFromDB);
+            }
+            if(skNrcFromDB){
+                var elementFile = "nrc_file";
+                mostrarFileElement(elementFile , nameNrciFileFromDB);
+            }
+        };
+
+        function mostrarFileElement(elementFile , nameDuiFileFromDB){
+            var fileInput = document.getElementById(elementFile);
+            var myFile = new File(['just for required'], 'file_dummie.pdf', {
+                type: 'application/pdf',
+                lastModified: new Date(),
+            });
+            var dataTransfer = new DataTransfer();
+            dataTransfer.items.add(myFile);
+            fileInput.files = dataTransfer.files;
+            $("#" + elementFile + "_input").hide();
+            // $("#"+ elementFile).removeAttr("required");
+            nameDuiFileFromDB = recortarNameForFile(nameDuiFileFromDB);
+            let fileBloc = $("<span/>", {class: "file-block"});
+            let fileName = $("<span/>", {id: (elementFile + "_"), class: "name", text: nameDuiFileFromDB});
+            fileBloc.append('<span id="' + elementFile + "_x" + '" class="file-delete" onclick="removeFile(' + "'" + elementFile + "'" + ')" ><span>+</span></span>').append(fileName);
+            $("#" + "filesList_" + elementFile + " > #files-names_" + elementFile).append(fileBloc);
+        };
+
+        function ocultarInputsFiles(){
+            var liFiles = document.getElementsByClassName("file-delete");
+            for (var i = 0; i < liFiles.length; i++) {
+                var idName = liFiles[i].id;
+                idName = idName.replaceAll("x", "input");
+                $("#" + idName).hide();
+            }
+        }
+
+        function recortarNameForFile(fullName){
+            var shortName = fullName;
+            if (shortName.length > 35) {
+                shortName = fullName.substring(0, 25) + "..." + fullName.substring((fullName.length - 9), fullName.length);
+            }
+            return shortName;
+        }
+
+
+        function clickOn(elemento) {
+            $("#" + elemento).click();
+        };
+
+        function backwardSol() {
+            window.location.href = '/user/reg/company?back=' + 1;
+        };
+
+    </script>
+
+</section>
+</body>
+</html>

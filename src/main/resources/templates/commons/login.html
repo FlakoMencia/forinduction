@@ -1,0 +1,196 @@
+<html lang="en" dir="ltr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/public-layout}">
+    <head>
+        <title>Login</title>
+    </head>
+
+    <body>
+    <th:block layout:fragment="content">
+        <main class="main h-100 w-100 color-primario">
+            <div class="container h-100">
+                <div class="row h-100">
+                    <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                        <div class="d-table-cell align-middle">
+
+                            <div class="text-center mt-4">
+                                <h1 class="h2">ONLY FOR INDUCTION PROPOURSE </h1>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="m-sm-4">
+                                        <div class="text-center mt-3" th:if="${mensaje != null}">
+                                            <div class="alert alert-dismissible alert-danger fade show" role="success">
+                                                <button type="button" class="btn-close" data-bs-dismiss="success" aria-label="Close"></button>
+                                                <span th:value="${mensaje}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-sm-4">
+                                        <div class="text-center">
+                                            <h1 class="h2">WELCOME</h1>
+                                        </div>
+                                        <div class='text-center'>
+                                            <img th:src="@{/images/logo.png}" class="img-fluid" alt="LOGO" width='200' height="400"/>
+                                        </div>
+                                        <form th:action="@{/user/login}" method="post">
+                                            <div class="text-center mt-3" th:if="${param.error}">
+                                                <div class="alert alert-dismissible alert-danger fade show" role="alert">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                    Usuario y/o contraseña incorrecta.
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class='col-md-2 text-right font-weight-bold d-flex align-items-center'>
+                                                    <label>User:</label>
+                                                </div>
+                                                <div class='col-md-10 d-flex'>
+                                                    <input class="form-control form-control-lg" type="text" id='username' name="username"
+                                                           placeholder="Ingresa tu usuario" onkeyup="onCambioBoton();" />
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class='col-md-2 text-right font-weight-bold d-flex align-items-center'>
+                                                    <label>Contrase&ntilde;a:</label>
+                                                </div>
+                                                <div class='col-md-10 d-flex'>
+                                                    <input class="form-control form-control-lg" type="password" id='password' name="password"
+                                                           placeholder="Ingresa tu contrase&ntilde;a" onkeyup="onCambioBoton();"/>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button id='botonSubmit' type="submit" class="btn btn-lg btn-primary color-primario" disabled>Iniciar Sesión</button>
+                                            </div>
+                                            <div class="text-center">
+                                                <small>
+                                                    <a href="javascript:void(0)" onclick="mostrarFormResetPassword();">¿Olvidó la contraseña?</a>
+                                                </small>
+                                            </div>
+                                            <div class="mb-2 text-center mt-4">
+                                                <label>¿No tienes cuenta?</label>
+                                                <br/>
+                                                <a class="btn btn-lg btn-primary color-primario" th:href="@{/public/regUser/tipoPersona}">Crear Cuenta</a>
+                                            </div>
+                                            <div class="text-center">
+                                                <label>Version: [[#{induction.portal.version.fecha}]]</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal de reseteo de password -->
+        <div id="modalResetPassword" class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none; ">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Recuperación de contraseña</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="frmResetPassword" class="needs-validation form-horizontal needs-validation-manual" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <i class="fas fa-exclamation-circle fa-2x" style="color: orange;"></i>
+                                </div>
+                                <div class="col-lg-11">
+                                    <label>Estimado contribuyente, ingrese sus datos para proceder con el reestablecimiento de la contraseña.</label>
+                                </div>
+                            </div>
+                            <div class="form-group row mt-4">
+                                <div class="col-lg-4">
+                                    <label>Correo electrónico:</label>
+                                </div>
+                                <div class="col-lg-8 col-sm-8">
+                                    <input type="text" id="stCorreoRecuperacion" class="emails" name="stCorreoRecuperacion" style="width: 100%;" required />
+                                </div>
+                            </div>
+                            <div class="row mt-4 text-center">
+                                <div class="col-sm-2 col-lg-2"></div>
+                                <div class="col-sm-8 col-lg-8">
+                                    <div class="g-recaptcha" data-callback="habilitarResetPassword" data-expired-callback="deshabilitarResetPassword" th:data-sitekey="${recaptcha2Token}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style='justify-content: center;'>
+                            <button id="btnEnviarResetPassword" type="submit" class="btn btn-info waves-effect waves-light text-center text-white">Validar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <section layout:fragment="js" th:remove="tag">
+        <script src="https://www.google.com/recaptcha/api.js?explicit&hl=es" async defer></script>
+        <script th:inline="javascript">
+            const urlResetPassword = /*[[@{/public/usuario/password/reset/crear}]]*/"";
+        </script>
+        <script>
+            $(function () {
+                // se llama al cargar por si el usuario tiene informacion guardada en el navegador
+                onCambioBoton();
+                
+                $(".emails").inputmask("email");
+            });
+            
+            function onCambioBoton() {
+                if($("#username").val() && $("#password").val()) {
+                    $("#botonSubmit").attr("disabled", false);
+                }
+                else {
+                    $("#botonSubmit").attr("disabled", true);
+                }
+            }
+
+            function mostrarFormResetPassword() {
+                deshabilitarResetPassword();
+                $("#modalResetPassword").modal("toggle");
+            }
+
+            function habilitarResetPassword() {
+                $("#btnEnviarResetPassword").prop("disabled", false);
+            }
+
+            function deshabilitarResetPassword() {
+                $("#btnEnviarResetPassword").prop("disabled", true);
+            }
+
+            function crearResetPassword() {
+                var peticionData = new PeticionData($("#frmResetPassword").serialize(), urlResetPassword, "POST");
+                peticionData.procesarPeticionAjax(function (resultado) {
+                    if (resultado.success) {
+                        Swal.fire({title: "Correo electrónico enviado", text: "El correo electrónico fue enviado de forma exitosa, " 
+                                    + " siga las instrucciones para restablecer su contraseña." 
+                                    + " Revise la carpeta de spam o correo no deseado en caso de no encontrar el correo electrónico."
+                            , type: 'success'
+                            , confirmButtonText: 'Aceptar'
+                        });
+                        $("#modalResetPassword").modal("toggle");
+                    }
+                });
+            }
+
+            /* Submit validation, antes de ejecutar la funcion de guardado ajaxSave() */
+            $("#frmResetPassword").submit(function (event) {
+                // cancels the form submission
+                var formulario = $('#frmResetPassword');
+                event.preventDefault();
+                event.stopPropagation();
+
+                var validacionBootstrapCorrecta = formulario[0].checkValidity();
+                var validacionManualCorrecta = Validador.validarFormulario(formulario);
+                var isCaptchaLleno = grecaptcha.getResponse();
+                if (validacionBootstrapCorrecta && validacionManualCorrecta && isCaptchaLleno) {
+                    crearResetPassword();
+                }
+                formulario.addClass('was-validated');
+            });
+        </script>
+    </section>
+</body>
+</html>

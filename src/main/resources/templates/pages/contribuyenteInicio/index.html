@@ -1,0 +1,99 @@
+<html lang="en" dir="ltr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/admin-layout}">
+    <head>
+        <title>Incio</title>
+        <th:block th:insert="fragments/custom/style"/>
+        <th:block th:insert="fragments/salert/style"/>
+    </head>
+
+    <body>
+    <th:block layout:fragment="content">
+    <div class="container-fluid">
+        <div class="header">
+            <h1 class="header-title">
+                [[#{msg.welcome}]], [[${userLogged}]]
+            </h1>
+        </div>
+        <br>
+        <h1 class="header-title">
+            Servicios en L&iacute;nea
+        </h1>
+        <div class="col-xl-12 col-xxl-12 d-grid">
+            <!--            <div class="w-100">-->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="registroEmpresaDiv" class="card card-hover div-hover ">
+                        <div class="card-body">
+                            <div class="row " id="registroEmpresaLink" onclick="location.href='../user/reg/company'"
+                                 style="cursor: pointer;height: auto;" >
+                                <div class="col mt-0 ">
+                                    <h4 class="card-title " style="font-weight:bold"> Registro de Empresa </h4>
+                                </div>
+                                <img th:src="@{/images/users/02.jpg}" alt="Registro de Empresa"
+                                     width="80" height="300" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body card-hover div-hover">
+                                <div class="row" onclick="location.href = 'tu url'" style="cursor: pointer;height: auto ">
+                                    <div class="col mt-0">
+                                        <h4 class="card-title " style="font-weight:bold">Registro nueva sucursal</h4>
+                                    </div>
+                                    <img th:src="@{/images/users/04.jpg}" alt="Registro nueva sucursal"
+                                         width="80" height="300"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card card-hover div-hover">
+                            <div class="card-body">
+                                <div class="row" th:onclick="location.href=[[@{/user/declaracion/datosContribuyente}]]"
+                                     style="cursor: pointer;height: auto ">
+                                    <div class="col mt-0">
+                                        <h4 class="card-title" style="font-weight:bold">Declaraciones</h4>
+                                    </div>
+                                    <img th:src="@{/images/users/03.jpg}" alt="Declaraciones"
+                                         class="" width="80" height="300"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-hover div-hover">
+                            <div class="card-body">
+                                <div class="row" onclick="location.href = '../user/perfil/perfilPersona'" style="cursor: pointer;height: auto ">
+                                    <div class="col mt-0">
+                                        <h4 class="card-title" style="font-weight:bold">Perfil</h4>
+                                    </div>
+                                    <img th:src="@{/images/users/01.png}" alt="Perfil"
+                                         class="" width="80" height="300"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<section layout:fragment="js" th:remove="tag">
+    <script type="text/javascript">
+        var hasCompanyRegistered = Boolean([[${hasCompanyRegistered}]]);
+        function deshabilitarRegistroEmpresa() {
+            if(hasCompanyRegistered ){
+                $("#registroEmpresaDiv").attr("disabled", hasCompanyRegistered);
+                $("#registroEmpresaDiv").attr("class", "card opacity-50");
+                $("#registroEmpresaLink").attr("style", "cursor:no-drop");
+                $("#registroEmpresaLink").removeAttr("onclick");
+            }
+        }
+        (function () {
+            deshabilitarRegistroEmpresa();
+        })();
+    </script>
+
+</section>
+</body>
+</html>

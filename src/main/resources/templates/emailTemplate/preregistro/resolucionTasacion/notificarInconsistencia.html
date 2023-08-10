@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Observación de Resolución [[${resolucion.cdNumeroResolucion}]]</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+        
+        .celda-error {
+            background-color: #fd716a;
+        }
+    </style>
+</head>
+    <body>
+        <div>Buen día</div>
+        <div>Por este medio se le solicita revisar las siguientes observaciones de la
+            resolución [[${resolucion.cdNumeroResolucion}]]:
+        </div>
+        <div>[[${observacion}]]</div>
+        <div>
+            <h3>Tabla Saldos determinados</h3>
+            <table id="tblPrResolucionTasacionDet" class="table table-hover table-bordered" style="width: 100%; overflow-x: scroll;">
+                <thead style="width: 100%;">
+                    <tr>
+                        <th colspan="2">Específico</th>
+                        <th colspan="2">Periodo/Ejercicio</th>
+                        <th colspan="2">Impuesto</th>
+                        <th colspan="2">DSF</th>
+                        <th colspan="2">Multa</th>
+                    </tr>
+                    <tr>
+                        <th>CSMS</th>
+                        <th>DGT</th>
+
+                        <th>CSMS</th>
+                        <th>DGT</th>
+
+                        <th>CSMS</th>
+                        <th>DGT</th>
+
+                        <th>CSMS</th>
+                        <th>DGT</th>
+
+                        <th>CSMS</th>
+                        <th>DGT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="detalle : ${detallesError}">
+                        <td><p th:text="${detalle.csmsEspecificoDescripcionDelegate}"></p></td>
+                        <td th:attr="class=${detalle.isEspecificoValido()} ? '' : 'celda-error'"><p th:text="${detalle.dgtEspecificoDescripcionDelegate}"></p></td>
+                        
+                        <td><p th:text="${detalle.fcCsmsEjercicio}"></p></td>
+                        <td th:attr="class=${detalle.isEjercicioValido()} ? '' : 'celda-error'"><p th:text="${detalle.fcDgtEjercicio}"></p></td>
+                        
+                        <td><p th:text="${formatter.format(detalle.nmCsmsImpuesto.doubleValue())}"></p></td>
+                        <td th:attr="class=${detalle.isImpuestoValido()} ? '' : 'celda-error'"><p th:text="${formatter.format(detalle.nmDgtImpuesto.doubleValue())}"></p></td>
+                        
+                        <td><p th:text="${formatter.format(detalle.nmCsmsDsf.doubleValue())}"></p></td>
+                        <td th:attr="class=${detalle.isDsfValido()} ? '' : 'celda-error'"><p th:text="${formatter.format(detalle.nmDgtDsf.doubleValue())}"></p></td>
+                        
+                        <td><p th:text="${formatter.format(detalle.nmCsmsMulta.doubleValue())}"></p></td>
+                        <td th:attr="class=${detalle.isMultaValida()} ? '' : 'celda-error'"><p th:text="${formatter.format(detalle.nmDgtMulta.doubleValue())}"></p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>A la espera de su verificación y posterior notificación por este medio.</div>
+        <div>Atentamente.</div>
+    </body>
+</html>

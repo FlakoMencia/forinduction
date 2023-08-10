@@ -1,0 +1,122 @@
+<!--decorated page-->
+<html lang="en" dir="ltr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/public-layout}">
+
+<head>
+    <title>Inicio - Portal</title>
+
+    <!-- Custom CSS from main page-->
+</head>
+
+<body>
+<section layout:fragment="breadcrumb" th:remove="tag">
+</section>
+
+<section layout:fragment="content" th:remove="tag">
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Slider  -->
+        <!-- ============================================================== -->
+        <div class="bg-light spacer p-b-0">
+            <section id="slider-sec" class="slider2">
+                <div id="slider2" class="carousel bs-slider slide  control-round indicators-line" data-bs-ride="carousel" data-pause="hover" data-interval="7000">
+                    <!-- Wrapper For Slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active">
+                            <!-- Slide Background --><img th:src="@{/images/public/slide1.jpg}" alt="Inicio 1" class="slide-image" />
+                            <!-- Slide Text Layer -->
+                            <div class="slide-text slide_style_left">
+                                <div class="col-md-9 col-lg-6">
+                                    <label class="label label-warning text-uppercase font-semibold" data-animation="animated fadeInDown">Bienvenido a</label>
+                                    <h2 data-animation="animated zoomInRight" class="title text-white">Portal</h2>
+                                </div>
+                                <div class="col-md-8 col-lg-5">
+                                    <p data-animation="animated fadeInLeft" class="m-t-40 m-b-40 hidden-sm-down" style="color: black;">Se ofrecen los servicios de su alcaldia ahora al toque de un botón.</p>
+                                </div>
+                                <div class="col-sm-12 btn-pad">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Slide -->
+                        <!-- Second Slide -->
+                        <div class="carousel-item">
+                            <!-- Slide Background --><img th:src="@{/images/public/slide2.jpg}" alt="Inicio 2" class="slide-image" />
+                            <!-- Slide Text Layer -->
+                            <div class="slide-text">
+                                <div class="col-md-9 col-lg-6">
+                                    <h2 data-animation="animated flipInX" class="title text-white">Formularios en linea</h2>
+                                </div>
+                                <div class="col-md-8 col-lg-5">
+                                    <p data-animation="animated lightSpeedIn" class="m-t-40 m-b-40 hidden-sm-down" style="color: black;">Descargue los formularios usados por su alcaldia en linea.</p>
+                                </div>
+                                <div class="col-sm-12 btn-pad">
+                                    <a class="btn btn-info-gradiant btn-md btn-arrow" data-animation="animated fadeInUp" data-toggle="collapse" href="#"> <span>Consultar formularios<i class="ti-arrow-right"></i></span> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#slider2" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previo</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#slider2" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Siguiente</span>
+                    </button>
+                </div>
+                <!-- End Slider -->
+                <!-- Slider Modal -->
+                <div class="modal bd-example-modal-lg fade" id="video" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalTitle">Your Video Title Here</h5>
+                                <button type="button" class="close font-20" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="ti-close"></span> </button>
+                            </div>
+                            <div class="modal-body">
+                                <!--<video width="100%" controls>-->
+                                    <!--<source src="../assets/videos/welding.mp4" type="video/mp4"> Your browser does not support HTML5 video. </video>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Slider Modal -->
+            </section>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Slider 1  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Back to top -->
+    <!-- ============================================================== -->
+    <a class="bt-top btn btn-circle btn-lg btn-info" href="#top"><i class="ti-arrow-up"></i></a>
+</section>
+
+<section layout:fragment="js" th:remove="tag">
+    <!-- Required libraries -->
+
+    <script th:inline="javascript">
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $('#slider2').bsTouchSlider();
+            $(".carousel .carousel-inner").swipe({
+                swipeLeft: function(event, direction, distance, duration, fingerCount) {
+                    this.parent().carousel('next');
+                },
+                swipeRight: function() {
+                    this.parent().carousel('prev');
+                },
+                threshold: 0
+            });
+            $('.pre-scroll').perfectScrollbar();
+        });
+    </script>
+</section>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Ejemplo de envío de correos electrónicos con plantillas Thymeleaf</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+<h3>Mensaje de prueba</h3>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th scope="col">Código</th>
+        <th scope="col">Descripción</th>
+    </tr>
+    <tbody>
+    <tr th:each="secRole : ${secRoles}">
+        <td><p th:text="${secRole.cRole}"></p></td>
+        <td><p th:text="${secRole.sdescription}"></p></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

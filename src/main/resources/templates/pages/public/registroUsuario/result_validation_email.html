@@ -1,0 +1,68 @@
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/unwrap-layout}">
+    <head>
+        <title>TODO supply a title</title>
+    </head>
+    <body>
+        <section layout:fragment="content" th:remove="tag">
+            <div class="container-fluid w-100">
+                <div class="row">
+                    <div class="col col-6 mx-auto">
+                        <div class="card">
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-12">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <center>
+                                                <i th:if="${msjConfirmacionCorreo}" class="fas fa-8x fa-check-circle text-success"></i>
+                                                <i th:if="${msjErrorCorreo}" class="fas fa-8x fa-exclamation-circle text-danger"></i>
+                                            </center>
+                                            <center>
+                                                <label class="col-sm-12 control-label col-form-label fw-bold fs-7">
+
+                                                </label>
+                                            </center>
+                                        </div>
+                                        <div class="col-sm-12 mt-3" th:if="${msjConfirmacionCorreo}">
+                                            <center>
+                                                <div class="col-sm-8">
+                                                    <label class="col-sm-12 control-label col-form-label pre-wrap fst-normal fs-4" th:text="${msjConfirmacionCorreo}">
+                                                    </label>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="col-sm-12 mt-3" th:if="${msjErrorCorreo}">
+                                            <center>
+                                                <div class="col-sm-8">
+                                                    <label class="col-sm-12 control-label col-form-label pre-wrap fst-normal fs-4" th:text="${msjErrorCorreo}">
+                                                    </label>
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col col-5">&nbsp;</div>
+                                <div class="col col-2" th:if="${msjConfirmacionCorreo}">
+                                    <a class="btn btn-info waves-effect waves-light w-100" th:href="@{/user/login}">Inicio de Sesión</a>
+                                </div>
+                                <div class="col col-2" th:if="${msjErrorCorreo}">
+                                    <a class="btn btn-info waves-effect waves-light w-100" th:href="@{/public/index}">Inicio</a>
+                                </div>
+                                <div class="col col-5">&nbsp;</div>
+                            </div>
+                            <br/>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

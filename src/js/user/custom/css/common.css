@@ -1,0 +1,202 @@
+
+fieldset.fieldset-control {
+    border-radius: 5px !important;
+    margin: 0 2px !important;
+    padding: 0.35em 0.625em 0.75em !important;
+    padding: 1% !important;
+    min-width: 0 !important;
+}
+
+legend.legend-control {
+    font-weight: bold !important;
+    padding: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 21px !important;
+    line-height: inherit !important;
+    color: #343a40 !important; 
+    border: 0 !important;
+    border-bottom: 1px solid #ddd !important;
+    border-radius: 4px !important;
+}
+
+.border-1-secundary{
+    border: 1px solid #c3c3c3 !important;
+}
+
+
+.w-10 {
+    width: 10% !important;
+}
+
+.w-25 {
+    width: 25% !important;
+}
+
+.w-35 {
+    width: 35% !important;
+}
+
+.w-45 {
+    width: 45% !important;
+}
+
+.w-50 {
+    width: 50% !important;
+}
+
+.w-55 {
+    width: 55% !important;
+}
+
+.w-60 {
+    width: 60% !important;
+}
+
+.w-65 {
+    width: 65% !important;
+}
+
+.w-70 {
+    width: 75% !important;
+}
+
+.w-75 {
+    width: 75% !important;
+}
+
+.w-80 {
+    width: 80% !important;
+}
+
+.w-85 {
+    width: 85% !important;
+}
+
+.w-90 {
+    width: 90% !important;
+}
+
+.w-95 {
+    width: 95% !important;
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+.mt-p-0{
+    margin-top: 0 !important;
+}
+
+.mt-p-5{
+    margin-top: 5% !important;
+}
+
+.mt-p-10{
+    margin-top: 10% !important;
+}
+
+.mt-p-15{
+    margin-top: 15% !important;
+}
+
+.mt-p-25{
+    margin-top: 25% !important;
+}
+
+.mt-p-50{
+    margin-top: 50% !important;
+}
+
+.mt-p-75{
+    margin-top: 75% !important;
+}
+
+.mr-p-0{
+    margin-right: 0 !important;
+}
+
+.mr-p-5{
+    margin-right: 5% !important;
+}
+
+.mr-p-10{
+    margin-right: 10% !important;
+}
+
+.mr-p-15{
+    margin-right: 15% !important;
+}
+
+.mr-p-25{
+    margin-right: 25% !important;
+}
+
+.mr-p-50{
+    margin-right: 50% !important;
+}
+
+.mr-p-75{
+    margin-right: 75% !important;
+}
+
+.ml-p-0{
+    margin-left: 0 !important;
+}
+
+.ml-p-5{
+    margin-left: 5% !important;
+}
+
+.ml-p-10{
+    margin-left: 10% !important;
+}
+
+.ml-p-15{
+    margin-left: 15% !important;
+}
+
+.ml-p-25{
+    margin-left: 25% !important;
+}
+
+.ml-p-50{
+    margin-left: 50% !important;
+}
+
+.ml-p-75{
+    margin-left: 75% !important;
+}
+
+.h-px-25{
+    height: 25px !important;
+}
+
+.h-px-50{
+    height: 50px !important;
+}
+
+.h-px-75{
+    height: 75px !important;
+}
+
+.h-px-100{
+    height: 100px !important;
+}
+
+.h-px-150{
+    height: 150px !important;
+}
+
+.h-px-200{
+    height: 200px !important;
+}
+
+.pre-wrap{
+	white-space: pre-wrap !important;
+}
+
+.large-tooltip > .tooltip-inner {
+	max-width: 400px !important;
+}

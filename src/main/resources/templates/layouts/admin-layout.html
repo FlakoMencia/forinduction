@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:insert="~{fragments/basic-metadata}"/>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE" th:text="#{application.name}"></title>
+    <th:block th:insert="~{fragments/basic-linkcss}"/>
+</head>
+
+<body>
+<th:block th:insert="~{fragments/preloader}"/>
+
+<div id="main-wrapper">
+    <th:block th:insert="~{fragments/header}"/>
+    <th:block th:insert="~{fragments/menu}"/>
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div layout:fragment="breadcrumb" class="page-breadcrumb">
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div layout:fragment="content" class="container-fluid">
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <th:block th:insert="~{fragments/footer}"/>
+    </div>
+
+</div>
+
+<th:block th:insert="~{fragments/basic-js}"/>
+
+<th:block layout:fragment="js"/>
+
+</body>
+
+</html>

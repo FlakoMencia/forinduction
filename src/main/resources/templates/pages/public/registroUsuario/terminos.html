@@ -1,0 +1,83 @@
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/unwrap-layout}">
+    <head>
+        <title>Registro de Usuario</title>
+    </head>
+    <body>
+        <section layout:fragment="content" th:remove="tag">
+            <div class="container-fluid w-100">
+                <div class="row">
+                    <div class="col col-9 mx-auto">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="idFormTerminos" class="needs-validation needs-validation-manual form-horizontal" novalidate th:action="@{/public/regUser/aceptarTerminos}" th:object="${ccPersona}" method="POST">
+                                    <div class="row mt-1 ms-3">
+                                        <div class="col">
+                                            <label class="text-black">Paso N° 2</label>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1 mb-4 ms-3">
+                                        <div class="col">
+                                            <label class="text-info">Creaci&oacute;n de Usuario</label>
+                                        </div>
+                                    </div>
+                                    <fieldset class="w-100 border-1-secundary fieldset-control">
+                                        <legend class="legend-control"><h4>Registro de Usuario</h4></legend>
+                                        <th:block th:insert="~{fragments/service-response-painter}" th:remove="tag"/>
+                                        <div class="row p-4">
+                                            <div class="row mt-4">
+                                                <div class="col">
+                                                    <p class="border-1-secundary text-black p-3 h5">
+                                                        "Declaro que represento a el/la contribuyente y soy usuario autorizado para acceder a sus registros, realizar
+                                                        cambios en su informaci&oacute;n b&aacute;sica y suministrar una direcci&oacute;n de correo electr&oacute;nico a la que le podr&aacute;n ser
+                                                        enviadas notificaciones formales , que a la vez ser&aacute; su identidad de
+                                                        usuario."
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col">
+                                                    <div class="form-check float-end w-35">
+                                                        <input type="checkbox" class="form-check-input" th:field="*{aceptarCondicion}" id="idCheckCondiciones" value="1" />
+                                                        <label class="form-check-label text-black" for="idCheckCondiciones">Acepto Términos y Condiciones <b class="text-danger">*</b></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-p-15">
+                                                <div class="col col-2">&nbsp;</div>
+                                                <div class="col col-3">
+                                                    <a class="btn btn-danger waves-effect waves-light w-75" th:href="@{/public/index}">Cancelar</a>
+                                                </div>
+                                                <div class="col col-3">
+                                                    <a class="btn btn-warning waves-effect waves-light w-75" th:href="@{/public/regUser/tipoPersona}">Atras</a>
+                                                </div>
+                                                <div class="col col-3">
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light w-75" id="idBtnSiguiente" disabled>Siguiente</button>
+                                                </div>
+                                                <div class="col col-1">&nbsp;</div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="cdTipoPersona" th:field="*{cdTipoPersona}">
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section layout:fragment="js" th:remove="tag">
+            <script th:src="@{/js/pages/registroUsuario.js}"></script>
+            <script type="text/javascript"> $(function() {
+                $('#idCheckCondiciones').change(function() {
+                    if(this.checked) {
+                        $('#idBtnSiguiente').prop('disabled', false);
+                    }else{
+                        $('#idBtnSiguiente').prop('disabled', true);
+                    }
+                });
+            });</script>
+        </section>
+    </body>
+</html>
